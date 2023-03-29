@@ -14,7 +14,8 @@ management:
         include: '*'
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/postgres
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5434/postgres
     username: user
     password: password
   liquibase:
