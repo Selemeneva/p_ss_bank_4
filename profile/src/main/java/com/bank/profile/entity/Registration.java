@@ -48,6 +48,6 @@ public class Registration {
 
 
     //Это что такое вообще? Может вызвать ошибку
-    @Column(name = "Column")
-    private Integer column;
+    @Column(name = "columns")
+    private Integer columns;
 }
