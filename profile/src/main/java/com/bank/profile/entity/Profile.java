@@ -35,5 +35,7 @@ public class Profile {
     @OneToMany(mappedBy = "owner")
     private List<AccountDetailsId> accounts;
 
-
+    @OneToOne
+    @JoinColumn(name = "passport_id", referencedColumnName = "id")
+    private Passport passport;
 }
