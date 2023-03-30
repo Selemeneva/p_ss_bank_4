@@ -38,4 +38,8 @@ public class Profile {
     @OneToOne
     @JoinColumn(name = "passport_id", referencedColumnName = "id")
     private Passport passport;
+
+    @OneToOne
+    @JoinColumn(name = "actual_registration_id", referencedColumnName = "id")
+    private ActualRegistration actualRegistration;
 }
