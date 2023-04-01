@@ -8,6 +8,8 @@ import lombok.Data;
 @Data
 public class AccountDetailsIdDto {
 
+    private Long id;
+
     private Long accountId;
 
     private Profile owner;

@@ -10,6 +10,8 @@ import java.time.LocalDate;
 @Data
 public class PassportDto {
 
+    private Long id;
+
     private Integer series;
 
     private Long number;

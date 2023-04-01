@@ -11,6 +11,8 @@ import java.util.List;
 @Data
 public class ProfileDto {
 
+    private Long id;
+
     private Long phoneNumber;
 
     private String email;
