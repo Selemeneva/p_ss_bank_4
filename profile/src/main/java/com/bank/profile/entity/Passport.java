@@ -17,10 +17,8 @@ public class Passport {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "series")
-    private Integer phoneNumber;
+    private Integer series;
 
-    @Column(name = "number")
     private Long number;
 
     @Column(name = "last_name")
@@ -32,7 +30,6 @@ public class Passport {
     @Column(name = "middle_name")
     private String middleName;
 
-    @Column(name = "gender")
     private String gender;
 
     @Column(name = "birth_date")
@@ -42,13 +39,13 @@ public class Passport {
     private String birthPlace;
 
     @Column(name = "issued_by")
-    private LocalDate issuedBy;
+    private String issuedBy;
 
     @Column(name = "date_of_issue")
     private LocalDate dateOfIssue;
 
     @Column(name = "division_code")
-    private LocalDate divisionCode;
+    private Integer divisionCode;
 
     @Column(name = "expiration_date")
     private LocalDate expirationDate;
@@ -56,4 +53,7 @@ public class Passport {
     @OneToOne
     @JoinColumn(name = "registration_id", referencedColumnName = "id")
     private Registration registration;
+
+    @OneToOne(mappedBy = "passport", cascade = CascadeType.ALL)
+    private Profile profile;
 }

@@ -20,19 +20,16 @@ public class Profile {
     @Column(name = "phone_number")
     private Long phoneNumber;
 
-    @Column(name = "email")
     private String email;
 
-    @Column(name = "name_of_card")
-    private String nameOfCard;
+    @Column(name = "name_on_card")
+    private String nameOnCard;
 
-    @Column(name = "inn")
     private Long inn;
 
-    @Column(name = "snils")
     private Long snils;
 
-    @OneToMany(mappedBy = "owner")
+    @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL)
     private List<AccountDetailsId> accounts;
 
     @OneToOne

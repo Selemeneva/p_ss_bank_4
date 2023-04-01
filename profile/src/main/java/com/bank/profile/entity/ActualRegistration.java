@@ -16,22 +16,16 @@ public class ActualRegistration {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "country")
     private String country;
 
-    @Column(name = "region")
     private String region;
 
-    @Column(name = "city")
     private String city;
 
-    @Column(name = "district")
     private String district;
 
-    @Column(name = "street")
     private String locality;
 
-    @Column(name = "street")
     private String street;
 
     @Column(name = "house_number")
@@ -43,6 +37,5 @@ public class ActualRegistration {
     @Column(name = "flat_number")
     private String flatNumber;
 
-    @Column(name = "index")
     private Long index;
 }
