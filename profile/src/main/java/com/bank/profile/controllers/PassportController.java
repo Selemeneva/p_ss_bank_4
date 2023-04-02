@@ -58,9 +58,12 @@ public class PassportController {
         return ResponseEntity.ok().build();
     }
 
-    @DeleteMapping("delete/{id}")
-    public ResponseEntity<Passport> deleteUser(@PathVariable Long id) {
-        registrationService.delete(id);
-        return ResponseEntity.ok().build();
-    }
+//    @DeleteMapping("delete/{id}")
+//    public ResponseEntity<Passport> deleteUser(@PathVariable Long id) {
+//        Passport passport = passportService.findById(id);
+//        Registration registration = passport.getRegistration();
+//        passportService.delete(id);
+//        registrationService.delete(registration.getId());
+//        return ResponseEntity.ok().build();
+//    }
 }
