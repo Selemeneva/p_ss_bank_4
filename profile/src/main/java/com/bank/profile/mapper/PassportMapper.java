@@ -4,7 +4,7 @@ import com.bank.profile.dto.PassportDto;
 import com.bank.profile.entity.Passport;
 import org.mapstruct.Mapper;
 
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring", uses = RegistrationMapper.class)
 public interface PassportMapper {
 
     PassportDto toDto(Passport passport);

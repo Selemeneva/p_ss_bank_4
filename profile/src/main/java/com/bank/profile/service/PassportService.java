@@ -8,4 +8,6 @@ public interface PassportService {
     void save(Passport passport);
     List<Passport> findAll();
     Passport findById(Long id);
+    void delete(Long id);
+    void update(Passport passport);
 }

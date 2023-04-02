@@ -15,11 +15,27 @@ public class PassportServiceImpl implements PassportService {
     }
 
     @Override
-    public void save(Passport passport) { passportRepository.save(passport); }
+    public void save(Passport passport) {
+        passportRepository.save(passport);
+    }
 
     @Override
-    public List<Passport> findAll() { return passportRepository.findAll(); }
+    public List<Passport> findAll() {
+        return passportRepository.findAll();
+    }
 
     @Override
-    public Passport findById(Long id) { return passportRepository.findById(id).orElseThrow(); }
+    public Passport findById(Long id) {
+        return passportRepository.findById(id).orElseThrow();
+    }
+
+    @Override
+    public void update(Passport passport) {
+        passportRepository.save(passport);
+    }
+
+    @Override
+    public void delete(Long id) {
+        passportRepository.deleteById(id);
+    }
 }

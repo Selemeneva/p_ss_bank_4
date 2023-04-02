@@ -1,16 +1,12 @@
 package com.bank.profile.dto;
 
-import com.bank.profile.entity.Profile;
 import com.bank.profile.entity.Registration;
-import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import java.time.LocalDate;
 
 @Data
 public class PassportDto {
-
-    private Long id;
 
     private Integer series;
 
@@ -36,6 +32,6 @@ public class PassportDto {
 
     private LocalDate expirationDate;
 
-    private Long registrationId;
+    private Registration registration;
 
 }

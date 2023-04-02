@@ -35,24 +35,24 @@ public class RegistrationController {
         return ResponseEntity.ok(registration);
     }
 
-    @PostMapping("create")
-    public ResponseEntity<Registration> createRegistration(@RequestBody RegistrationDto registrationDto){
-        Registration registration = registrationMapper.toRegistration(registrationDto);
-        registrationService.save(registration);
-        return new ResponseEntity<>(registration, HttpStatus.CREATED);
-    }
+//    @PostMapping("create")
+//    public ResponseEntity<Registration> createRegistration(@RequestBody RegistrationDto registrationDto){
+//        Registration registration = registrationMapper.toRegistration(registrationDto);
+//        registrationService.save(registration);
+//        return new ResponseEntity<>(registration, HttpStatus.CREATED);
+//    }
 
     @PatchMapping("update/{id}")
-    public ResponseEntity<Registration> updateRegistration(@RequestBody RegistrationDto registrationDto, @PathVariable("id") long id){
+    public ResponseEntity<Registration> updateRegistration(@RequestBody RegistrationDto registrationDto, @PathVariable Long id){
         Registration registration = registrationMapper.toRegistration(registrationDto);
         registration.setId(id);
         registrationService.update(registration);
         return ResponseEntity.ok().build();
     }
 
-    @DeleteMapping("{id}")
-    public ResponseEntity<Registration> deleteUser(@PathVariable Long id) {
-        registrationService.delete(id);
-        return ResponseEntity.ok().build();
-    }
+//    @DeleteMapping("{id}")
+//    public ResponseEntity<Registration> deleteUser(@PathVariable Long id) {
+//        registrationService.delete(id);
+//        return ResponseEntity.ok().build();
+//    }
 }

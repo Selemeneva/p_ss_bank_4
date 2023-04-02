@@ -26,7 +26,5 @@ public class RegistrationDto {
 
     private Long index;
 
-    private Passport passport;
-
     private Integer columns;
 }
