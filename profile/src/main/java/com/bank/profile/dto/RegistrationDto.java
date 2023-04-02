@@ -6,8 +6,6 @@ import lombok.Data;
 @Data
 public class RegistrationDto {
 
-    private Long id;
-
     private String country;
 
     private String region;

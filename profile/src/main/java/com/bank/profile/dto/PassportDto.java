@@ -36,7 +36,6 @@ public class PassportDto {
 
     private LocalDate expirationDate;
 
-    private Registration registration;
+    private Long registrationId;
 
-    private Profile profile;
 }

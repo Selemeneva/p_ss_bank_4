@@ -4,6 +4,8 @@ import com.bank.profile.entity.Registration;
 import com.bank.profile.repository.RegistrationRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class RegistrationServiceImpl implements RegistrationService{
 
@@ -15,6 +17,26 @@ public class RegistrationServiceImpl implements RegistrationService{
 
     @Override
     public void save(Registration registration) {
+        registrationRepository.save(registration);
+    }
+
+    @Override
+    public List<Registration> findAll() {
+        return registrationRepository.findAll();
+    }
+
+    @Override
+    public Registration getById(Long id) {
+        return registrationRepository.getReferenceById(id);
+    }
+
+    @Override
+    public void delete(Long id) {
+        registrationRepository.deleteById(id);
+    }
+
+    @Override
+    public void update(Registration registration) {
         registrationRepository.save(registration);
     }
 }

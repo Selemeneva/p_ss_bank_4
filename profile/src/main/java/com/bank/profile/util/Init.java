@@ -1,6 +1,7 @@
 package com.bank.profile.util;
 
 import com.bank.profile.entity.*;
+import com.bank.profile.mapper.*;
 import com.bank.profile.service.*;
 import org.springframework.stereotype.Component;
 
@@ -16,6 +17,13 @@ public class Init {
     private final ProfileService profileService;
     private final AccountDetailsIdService accountDetailsIdService;
     private final AuditService auditService;
+//    private final RegistrationMapper registrationMapper;
+//    private final PassportMapper passportMapper;
+//    private final ActualRegistrationMapper actualRegistrationMapper;
+//    private final ProfileMapper profileMapper;
+//    private final AccountDetailsIdMapper accountDetailsIdMapper;
+//    private final AccountDetailsIdListMapper accountDetailsIdListMapper;
+
 
     public Init(RegistrationService registrationService, PassportService passportService, ActualRegistrationService actualRegistrationService, ProfileService profileService, AccountDetailsIdService accountDetailsIdService, AuditService auditService) {
         this.registrationService = registrationService;
@@ -24,6 +32,7 @@ public class Init {
         this.profileService = profileService;
         this.accountDetailsIdService = accountDetailsIdService;
         this.auditService = auditService;
+
     }
 
     @PostConstruct

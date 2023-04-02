@@ -1,5 +1,6 @@
 package com.bank.profile.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -54,6 +55,7 @@ public class Passport {
     @JoinColumn(name = "registration_id", referencedColumnName = "id")
     private Registration registration;
 
+    @JsonIgnore
     @OneToOne(mappedBy = "passport", cascade = CascadeType.ALL)
     private Profile profile;
 }

@@ -1,5 +1,7 @@
 package com.bank.profile.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -10,6 +12,7 @@ import javax.persistence.*;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @Table(name = "registration")
 public class Registration {
     @Id
@@ -39,6 +42,7 @@ public class Registration {
 
     private Long index;
 
+    @JsonIgnore
     @OneToOne(mappedBy = "registration", cascade = CascadeType.ALL)
     private Passport passport;
 

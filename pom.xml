@@ -25,7 +25,7 @@
 		<module>profile</module>
 		<module>public-info</module>
 		<module>transfer</module>
-		<module>eureka-service</module>
+<!--		<module>eureka-service</module>-->
 	</modules>
 
 	<properties>
