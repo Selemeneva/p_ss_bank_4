@@ -46,7 +46,6 @@ public class Registration {
     @OneToOne(mappedBy = "registration", cascade = CascadeType.ALL)
     private Passport passport;
 
-
     //Это что такое вообще? Может вызвать ошибку
     private Integer columns;
 }

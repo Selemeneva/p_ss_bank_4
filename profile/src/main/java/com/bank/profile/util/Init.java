@@ -1,5 +1,6 @@
 package com.bank.profile.util;
 
+import com.bank.profile.dto.ProfileDto;
 import com.bank.profile.entity.*;
 import com.bank.profile.mapper.*;
 import com.bank.profile.service.*;
@@ -17,15 +18,10 @@ public class Init {
     private final ProfileService profileService;
     private final AccountDetailsIdService accountDetailsIdService;
     private final AuditService auditService;
-//    private final RegistrationMapper registrationMapper;
-//    private final PassportMapper passportMapper;
-//    private final ActualRegistrationMapper actualRegistrationMapper;
-//    private final ProfileMapper profileMapper;
-//    private final AccountDetailsIdMapper accountDetailsIdMapper;
-//    private final AccountDetailsIdListMapper accountDetailsIdListMapper;
+    private final ProfileMapper profileMapper;
 
 
-    public Init(RegistrationService registrationService, PassportService passportService, ActualRegistrationService actualRegistrationService, ProfileService profileService, AccountDetailsIdService accountDetailsIdService, AuditService auditService) {
+    public Init(RegistrationService registrationService, PassportService passportService, ActualRegistrationService actualRegistrationService, ProfileService profileService, AccountDetailsIdService accountDetailsIdService, AuditService auditService, ProfileMapper profileMapper) {
         this.registrationService = registrationService;
         this.passportService = passportService;
         this.actualRegistrationService = actualRegistrationService;
@@ -33,6 +29,7 @@ public class Init {
         this.accountDetailsIdService = accountDetailsIdService;
         this.auditService = auditService;
 
+        this.profileMapper = profileMapper;
     }
 
     @PostConstruct
@@ -49,7 +46,6 @@ public class Init {
         registration.setFlatNumber("123");
         registration.setIndex(12345L);
         registration.setColumns(12);
-        registrationService.save(registration);
 
         Passport passport = new Passport();
         passport.setSeries(5);
@@ -65,30 +61,28 @@ public class Init {
         passport.setDivisionCode(45);
         passport.setExpirationDate(LocalDate.ofEpochDay(2020-12-03));
         passport.setRegistration(registration);
-        passportService.save(passport);
 
         ActualRegistration actualRegistration = new ActualRegistration();
         actualRegistration.setCountry("Russia");
         actualRegistration.setIndex(12345L);
-        actualRegistrationService.save(actualRegistration);
 
         Profile profile = new Profile();
         profile.setPhoneNumber(1243455L);
         profile.setPassport(passport);
         profile.setActualRegistration(actualRegistration);
-        System.out.println(profile.getId());
-        profileService.save(profile);
+        ProfileDto profileDto = profileMapper.toDto(profile);
+        profileService.save(profileDto);
 
-        AccountDetailsId accountDetailsId1 = new AccountDetailsId();
-        accountDetailsId1.setOwner(profile);
-        accountDetailsId1.setAccountId(123456L);
-        accountDetailsId1.setOwner(profile);
-        accountDetailsIdService.save(accountDetailsId1);
-
-        AccountDetailsId accountDetailsId2 = new AccountDetailsId();
-        accountDetailsId2.setOwner(profile);
-        accountDetailsId2.setAccountId(123456789L);
-        accountDetailsIdService.save(accountDetailsId2);
+//        AccountDetailsId accountDetailsId1 = new AccountDetailsId();
+//        accountDetailsId1.setOwner(profile);
+//        accountDetailsId1.setAccountId(123456L);
+//        accountDetailsId1.setOwner(profile);
+//        accountDetailsIdService.save(accountDetailsId1);
+//
+//        AccountDetailsId accountDetailsId2 = new AccountDetailsId();
+//        accountDetailsId2.setOwner(profile);
+//        accountDetailsId2.setAccountId(123456789L);
+//        accountDetailsIdService.save(accountDetailsId2);
 
         Audit audit = new Audit();
         audit.setEntityType("profile");

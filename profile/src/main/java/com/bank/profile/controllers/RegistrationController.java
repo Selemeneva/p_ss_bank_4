@@ -5,7 +5,6 @@ import com.bank.profile.entity.Registration;
 import com.bank.profile.mapper.RegistrationMapper;
 import com.bank.profile.service.RegistrationService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -44,7 +43,7 @@ public class RegistrationController {
 
     @PatchMapping("update/{id}")
     public ResponseEntity<Registration> updateRegistration(@RequestBody RegistrationDto registrationDto, @PathVariable Long id){
-        Registration registration = registrationMapper.toRegistration(registrationDto);
+        Registration registration = registrationMapper.toEntity(registrationDto);
         registration.setId(id);
         registrationService.update(registration);
         return ResponseEntity.ok().build();
