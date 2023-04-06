@@ -6,8 +6,9 @@ import com.bank.profile.entity.Profile;
 import java.util.List;
 
 public interface ProfileService {
-    void save(ProfileDto profileDto);
+    Profile save(ProfileDto profileDto);
     List<Profile> findAll();
     Profile getById(Long id);
-    void update(ProfileDto profileDto, Long id);
+    Profile update(ProfileDto profileDto, Long id);
+    void delete(Profile profile);
 }

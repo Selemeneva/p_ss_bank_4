@@ -33,7 +33,7 @@ public class Profile {
     private Long snils;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "owner", cascade = CascadeType.REMOVE)
     private List<AccountDetailsId> accounts;
 
     @OneToOne

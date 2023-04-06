@@ -58,6 +58,6 @@ public class Passport {
     private Registration registration;
 
     @JsonIgnore
-    @OneToOne(mappedBy = "passport", cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "passport")
     private Profile profile;
 }

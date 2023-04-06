@@ -1,6 +1,8 @@
 package com.bank.profile.controllers;
 
+import com.bank.profile.dto.PassportDto;
 import com.bank.profile.dto.ProfileDto;
+import com.bank.profile.entity.Passport;
 import com.bank.profile.entity.Profile;
 import com.bank.profile.mapper.ProfileMapper;
 import com.bank.profile.service.ProfileService;
@@ -29,12 +31,6 @@ public class ProfileController {
         return ResponseEntity.ok(profiles);
     }
 
-    @GetMapping("dto/{id}")
-    public ResponseEntity<ProfileDto> getProfileDto(@PathVariable Long id) {
-        Profile profile = profileService.getById(id);
-        ProfileDto profileDto = profileMapper.toDto(profile);
-        return ResponseEntity.ok(profileDto);
-    }
 
     @GetMapping("{id}")
     public ResponseEntity<Profile> getProfile(@PathVariable Long id) {
@@ -44,7 +40,20 @@ public class ProfileController {
 
     @PostMapping("create")
     public ResponseEntity<Profile> createProfile(@RequestBody ProfileDto profileDto) {
-        profileService.save(profileDto);
-        return new ResponseEntity<>(HttpStatus.CREATED);
+        Profile profile = profileService.save(profileDto);
+        return new ResponseEntity<>(profile, HttpStatus.CREATED);
+    }
+
+    @PatchMapping("update/{id}")
+    public ResponseEntity<Profile> updatePassport(@RequestBody ProfileDto profileDto, @PathVariable Long id) {
+        Profile profile = profileService.update(profileDto, id);
+        return ResponseEntity.ok(profile);
+    }
+
+    @DeleteMapping("delete/{id}")
+    public ResponseEntity<Profile> deleteUser(@PathVariable Long id) {
+        Profile profile = profileService.getById(id);
+        profileService.delete(profile);
+        return ResponseEntity.ok().build();
     }
 }

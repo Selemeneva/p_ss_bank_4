@@ -8,6 +8,6 @@ public interface RegistrationService {
     void save(Registration registration);
     List<Registration> findAll();
     Registration getById(Long id);
-    void delete(Long id);
+    void delete(Registration registration);
     void update(Registration registration);
 }

@@ -6,9 +6,9 @@ import com.bank.profile.entity.Passport;
 import java.util.List;
 
 public interface PassportService {
-    void save(Passport passport);
+    Passport save(PassportDto passportDto);
     List<Passport> findAll();
-    Passport findById(Long id);
-    void delete(Long id);
-    void update(PassportDto passportDto, Long id);
+    Passport getById(Long id);
+    void delete(Passport passport);
+    Passport update(PassportDto passportDto, Long id);
 }

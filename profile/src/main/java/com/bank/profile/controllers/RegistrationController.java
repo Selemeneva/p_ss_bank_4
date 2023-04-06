@@ -5,6 +5,7 @@ import com.bank.profile.entity.Registration;
 import com.bank.profile.mapper.RegistrationMapper;
 import com.bank.profile.service.RegistrationService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -34,24 +35,25 @@ public class RegistrationController {
         return ResponseEntity.ok(registration);
     }
 
-//    @PostMapping("create")
-//    public ResponseEntity<Registration> createRegistration(@RequestBody RegistrationDto registrationDto){
-//        Registration registration = registrationMapper.toRegistration(registrationDto);
-//        registrationService.save(registration);
-//        return new ResponseEntity<>(registration, HttpStatus.CREATED);
-//    }
+    @PostMapping("create")
+    public ResponseEntity<Registration> createRegistration(@RequestBody RegistrationDto registrationDto){
+        Registration registration = registrationMapper.toEntity(registrationDto);
+        registrationService.save(registration);
+        return new ResponseEntity<>(registration, HttpStatus.CREATED);
+    }
 
     @PatchMapping("update/{id}")
     public ResponseEntity<Registration> updateRegistration(@RequestBody RegistrationDto registrationDto, @PathVariable Long id){
         Registration registration = registrationMapper.toEntity(registrationDto);
         registration.setId(id);
         registrationService.update(registration);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok(registration);
     }
 
-//    @DeleteMapping("{id}")
-//    public ResponseEntity<Registration> deleteUser(@PathVariable Long id) {
-//        registrationService.delete(id);
-//        return ResponseEntity.ok().build();
-//    }
+    @DeleteMapping("{id}")
+    public ResponseEntity<Registration> deleteUser(@PathVariable Long id) {
+        Registration registration = registrationService.getById(id);
+        registrationService.delete(registration);
+        return ResponseEntity.ok().build();
+    }
 }

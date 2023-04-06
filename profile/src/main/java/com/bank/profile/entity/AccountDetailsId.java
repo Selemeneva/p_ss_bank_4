@@ -25,4 +25,5 @@ public class AccountDetailsId {
     @ManyToOne
     @JoinColumn(name = "profile_id", referencedColumnName = "id")
     private Profile owner;
+
 }

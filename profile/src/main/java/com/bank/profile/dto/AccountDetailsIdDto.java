@@ -11,5 +11,5 @@ public class AccountDetailsIdDto {
 
     private Long accountId;
 
-    private Profile owner;
+    private Long profileId;
 }

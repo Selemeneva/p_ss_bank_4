@@ -43,7 +43,7 @@ public class Registration {
     private Long index;
 
     @JsonIgnore
-    @OneToOne(mappedBy = "registration", cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "registration")
     private Passport passport;
 
     //Это что такое вообще? Может вызвать ошибку

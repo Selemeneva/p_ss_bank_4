@@ -1,6 +1,8 @@
 package com.bank.profile.service;
 
+import com.bank.profile.dto.ActualRegistrationDto;
 import com.bank.profile.entity.ActualRegistration;
+import com.bank.profile.mapper.ActualRegistrationMapper;
 import com.bank.profile.repository.ActualRegistrationRepository;
 import org.springframework.stereotype.Service;
 
@@ -9,14 +11,18 @@ import java.util.List;
 @Service
 public class ActualRegistrationImpl implements ActualRegistrationService {
     private final ActualRegistrationRepository actualRegistrationRepository;
+    private final ActualRegistrationMapper actualRegistrationMapper;
 
-    public ActualRegistrationImpl(ActualRegistrationRepository actualRegistrationRepository) {
+    public ActualRegistrationImpl(ActualRegistrationRepository actualRegistrationRepository, ActualRegistrationMapper actualRegistrationMapper) {
         this.actualRegistrationRepository = actualRegistrationRepository;
+        this.actualRegistrationMapper = actualRegistrationMapper;
     }
 
     @Override
-    public void save(ActualRegistration actualRegistration) {
+    public ActualRegistration save(ActualRegistrationDto actualRegistrationDto) {
+        ActualRegistration actualRegistration = actualRegistrationMapper.toEntity(actualRegistrationDto);
         actualRegistrationRepository.save(actualRegistration);
+        return actualRegistration;
     }
 
     @Override
@@ -32,5 +38,10 @@ public class ActualRegistrationImpl implements ActualRegistrationService {
     @Override
     public void update(ActualRegistration actualRegistration) {
         actualRegistrationRepository.save(actualRegistration);
+    }
+
+    @Override
+    public void delete(ActualRegistration actualRegistration) {
+        actualRegistrationRepository.delete(actualRegistration);
     }
 }

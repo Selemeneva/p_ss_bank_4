@@ -1,9 +1,6 @@
 package com.bank.profile.dto;
 
-import com.bank.profile.entity.AccountDetailsId;
 import lombok.Data;
-
-import java.util.List;
 
 @Data
 public class ProfileDto {
@@ -18,7 +15,7 @@ public class ProfileDto {
 
     private Long snils;
 
-    private PassportDto passportDto;
+    private Long passportId;
 
-    private ActualRegistrationDto actualRegistrationDto;
+    private Long actualRegistrationId;
 }
