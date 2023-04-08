@@ -1,11 +1,15 @@
 package com.bank.history.controller;
 
 import com.bank.history.dto.HistoryDto;
+import com.bank.history.exception_handling.HistoryIncorrectData;
+import com.bank.history.exception_handling.NoSuchHistoryException;
 import com.bank.history.service.HistoryService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.slf4j.Logger;
 
@@ -41,8 +45,13 @@ public class HistoryController {
     )
     public HistoryDto getHistoryById(@PathVariable Long id) {
         logger.info("получили запрос на получение истории по id =  {}", id);
-        return historyService.getHistoryById(id);
+        HistoryDto historyDto = historyService.getHistoryById(id);
+        if (historyDto == null){
+            throw new NoSuchHistoryException("History with id = " + id + " does not exist.");
+        }
+        return historyDto;
     }
+
 
     @DeleteMapping("/{id}")
     @Operation(
@@ -51,6 +60,10 @@ public class HistoryController {
     )
     public void deleteHistoryById(@PathVariable Long id) {
         logger.info("получили запрос на удалении истории по id = {}", id);
+        HistoryDto historyDto = historyService.getHistoryById(id);
+        if (historyDto == null){
+            throw new NoSuchHistoryException("History with id = " + id + " does not exist.");
+        }
         historyService.deleteHistory(id);
     }
 
@@ -71,6 +84,10 @@ public class HistoryController {
     )
     public void updateHistory(@PathVariable("id") Long id, @RequestBody HistoryDto historyDto) {
         logger.info("получили запрос редактирование истории по id = {}", id);
+        HistoryDto historyDtoOld = historyService.getHistoryById(id);
+        if (historyDtoOld == null){
+            throw new NoSuchHistoryException("History with id = " + id + " does not exist.");
+        }
         historyService.updateHistory(id, historyDto);
     }
 }
