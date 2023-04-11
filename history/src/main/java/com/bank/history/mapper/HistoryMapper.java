@@ -5,7 +5,7 @@ import com.bank.history.entity.HistoryEntity;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 
-@Mapper(componentModel = "history")
+@Mapper(componentModel = "spring")
 public interface HistoryMapper {
     HistoryMapper INSTANCE = Mappers.getMapper(HistoryMapper.class);
     HistoryEntity toEntity(HistoryDto historyDto);
