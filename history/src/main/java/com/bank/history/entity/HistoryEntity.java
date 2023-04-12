@@ -47,5 +47,4 @@ public class HistoryEntity {
     @Positive(message = "Amount must be positive")
     @Column
     private Long authorizationAuditId;
-
 }
