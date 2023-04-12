@@ -5,13 +5,13 @@ import com.bank.history.dto.HistoryDto;
 import java.util.List;
 
 public interface HistoryController {
-    public List<HistoryDto> getAllHistory();
+    List<HistoryDto> getAllHistory();
 
-    public HistoryDto getHistoryById(Long id);
+    HistoryDto getHistoryById(Long id);
 
-    public void deleteHistoryById(Long id);
+    void deleteHistoryById(Long id);
 
-    public HistoryDto saveHistory(HistoryDto historyDto);
+    HistoryDto saveHistory(HistoryDto historyDto);
 
-    public void updateHistory(Long id, HistoryDto historyDto);
+    void updateHistory(Long id, HistoryDto historyDto);
 }

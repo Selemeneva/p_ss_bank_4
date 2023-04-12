@@ -1,9 +1,14 @@
 package com.bank.history.entity;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.*;
 import javax.validation.constraints.Positive;
 import javax.validation.constraints.Size;
 
@@ -12,33 +17,35 @@ import javax.validation.constraints.Size;
 @Data
 @NoArgsConstructor
 public class HistoryEntity {
+    public static final int MAX_NAME_LENGTH = 50;
+
     @Id
     @Column
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Size(min = 1, max = 50, message = "Name must be between 1 and 50 characters")
+    @Size(min = 1, max = MAX_NAME_LENGTH, message = "Name must be between 1 and 50 characters")
     @Positive(message = "Amount must be positive")
     @Column
-    private Long transfer_audit_id;
-    @Size(min = 1, max = 50, message = "Name must be between 1 and 50 characters")
+    private Long transferAuditId;
+    @Size(min = 1, max = MAX_NAME_LENGTH, message = "Name must be between 1 and 50 characters")
     @Positive(message = "Amount must be positive")
     @Column
-    private Long profile_audit_id;
-    @Size(min = 1, max = 50, message = "Name must be between 1 and 50 characters")
+    private Long profileAuditId;
+    @Size(min = 1, max = MAX_NAME_LENGTH, message = "Name must be between 1 and 50 characters")
     @Positive(message = "Amount must be positive")
     @Column
-    private Long account_audit_id;
-    @Size(min = 1, max = 50, message = "Name must be between 1 and 50 characters")
+    private Long accountAuditId;
+    @Size(min = 1, max = MAX_NAME_LENGTH, message = "Name must be between 1 and 50 characters")
     @Positive(message = "Amount must be positive")
     @Column
-    private Long anti_fraud_audit_id;
-    @Size(min = 1, max = 50, message = "Name must be between 1 and 50 characters")
+    private Long antiFraudAuditId;
+    @Size(min = 1, max = MAX_NAME_LENGTH, message = "Name must be between 1 and 50 characters")
     @Positive(message = "Amount must be positive")
     @Column
-    private Long public_bank_info_audit_id;
-    @Size(min = 1, max = 50, message = "Name must be between 1 and 50 characters")
+    private Long publicBankInfoAuditId;
+    @Size(min = 1, max = MAX_NAME_LENGTH, message = "Name must be between 1 and 50 characters")
     @Positive(message = "Amount must be positive")
     @Column
-    private Long authorization_audit_id;
+    private Long authorizationAuditId;
 
 }

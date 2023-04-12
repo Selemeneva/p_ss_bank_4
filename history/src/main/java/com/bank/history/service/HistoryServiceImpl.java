@@ -25,14 +25,14 @@ public class HistoryServiceImpl implements HistoryService {
     @Override
     @Transactional
     public List<HistoryDto> getAllHistory() {
-        List<HistoryEntity> entities = historyRepository.findAll();
+        final List<HistoryEntity> entities = historyRepository.findAll();
         return entities.stream().map(HistoryMapper.INSTANCE::toDto).collect(Collectors.toList());
     }
 
     @Override
     @Transactional
     public HistoryDto getHistoryById(Long id) {
-        Optional<HistoryEntity> entity = historyRepository.findById(id);
+        final Optional<HistoryEntity> entity = historyRepository.findById(id);
         return entity.map(HistoryMapper.INSTANCE::toDto).orElse(null);
     }
 
@@ -45,15 +45,15 @@ public class HistoryServiceImpl implements HistoryService {
     @Override
     @Transactional
     public HistoryDto saveHistory(HistoryDto saveHistory) {
-        HistoryEntity historyEntity = historyRepository.save(HistoryMapper.INSTANCE.toEntity(saveHistory));
-        HistoryDto historyDto = HistoryMapper.INSTANCE.toDto(historyEntity);
+        final HistoryEntity historyEntity = historyRepository.save(HistoryMapper.INSTANCE.toEntity(saveHistory));
+        final HistoryDto historyDto = HistoryMapper.INSTANCE.toDto(historyEntity);
         return historyDto;
     }
 
     @Override
     @Transactional
     public HistoryDto updateHistory(Long id, HistoryDto updateHistory) {
-        HistoryEntity historyEntity = historyRepository.save(HistoryMapper.INSTANCE.toEntity(updateHistory));
+        final HistoryEntity historyEntity = historyRepository.save(HistoryMapper.INSTANCE.toEntity(updateHistory));
         return HistoryMapper.INSTANCE.toDto(historyEntity);
     }
 }

@@ -8,14 +8,15 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 @ControllerAdvice
 public class HistoryGlobalExceptionHandler {
     @ExceptionHandler
-    public ResponseEntity<HistoryIncorrectData> handleException(NoSuchHistoryException exception){
-        HistoryIncorrectData data = new HistoryIncorrectData();
+    public ResponseEntity<HistoryIncorrectData> handleException(NoSuchHistoryException exception) {
+        final HistoryIncorrectData data = new HistoryIncorrectData();
         data.setInfo(exception.getMessage());
         return new ResponseEntity<>(data, HttpStatus.NOT_FOUND);
     }
+
     @ExceptionHandler
-    public ResponseEntity<HistoryIncorrectData> handleException(Exception exception){
-        HistoryIncorrectData data = new HistoryIncorrectData();
+    public ResponseEntity<HistoryIncorrectData> handleException(Exception exception) {
+        final HistoryIncorrectData data = new HistoryIncorrectData();
         data.setInfo(exception.getMessage());
         return new ResponseEntity<>(data, HttpStatus.BAD_REQUEST);
     }
