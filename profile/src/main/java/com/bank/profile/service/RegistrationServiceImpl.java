@@ -17,6 +17,7 @@ public class RegistrationServiceImpl implements RegistrationService{
 
     @Override
     public void save(Registration registration) {
+        registration.setId(null);
         registrationRepository.save(registration);
     }
 
@@ -38,5 +39,10 @@ public class RegistrationServiceImpl implements RegistrationService{
     @Override
     public void update(Registration registration) {
         registrationRepository.save(registration);
+    }
+
+    @Override
+    public boolean existById(Long id) {
+        return registrationRepository.existsById(id);
     }
 }

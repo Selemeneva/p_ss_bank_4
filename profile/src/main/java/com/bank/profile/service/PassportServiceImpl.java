@@ -4,6 +4,7 @@ import com.bank.profile.dto.PassportDto;
 import com.bank.profile.entity.Passport;
 import com.bank.profile.entity.Registration;
 import com.bank.profile.mapper.PassportMapper;
+import com.bank.profile.mapper.RegistrationMapper;
 import com.bank.profile.repository.PassportRepository;
 import org.springframework.stereotype.Service;
 
@@ -12,22 +13,21 @@ import java.util.List;
 @Service
 public class PassportServiceImpl implements PassportService {
     private final PassportRepository passportRepository;
-    private final RegistrationService registrationService;
+    private final RegistrationMapper registrationMapper;
     private final PassportMapper passportMapper;
+    private final RegistrationService registrationService;
 
-    public PassportServiceImpl(PassportRepository passportRepository, RegistrationService registrationService, PassportMapper passportMapper) {
+    public PassportServiceImpl(PassportRepository passportRepository, RegistrationMapper registrationMapper, PassportMapper passportMapper, RegistrationService registrationService) {
         this.passportRepository = passportRepository;
-        this.registrationService = registrationService;
+        this.registrationMapper = registrationMapper;
         this.passportMapper = passportMapper;
+        this.registrationService = registrationService;
     }
 
     @Override
-    public Passport save(PassportDto passportDto) {
-        Passport passport = passportMapper.toEntity(passportDto);
-        Registration registration = registrationService.getById(passportDto.getRegistrationId());
-        passport.setRegistration(registration);
+    public void save(Passport passport) {
+        passport.setId(null);
         passportRepository.save(passport);
-        return passport;
     }
 
     @Override
@@ -36,22 +36,22 @@ public class PassportServiceImpl implements PassportService {
     }
 
     @Override
-    public Passport getById(Long id) {
+    public Passport findById(Long id) {
         return passportRepository.getReferenceById(id);
     }
 
     @Override
-    public void delete(Passport passport) {
-        passportRepository.delete(passport);
+    public void update(Passport passport) {
+        passportRepository.save(passport);
     }
 
     @Override
-    public Passport update(PassportDto passportDto, Long id) {
-        Passport passport = passportMapper.toEntity(passportDto);
-        passport.setId(id);
-        Registration registration = registrationService.getById(passportDto.getRegistrationId());
-        passport.setRegistration(registration);
-        passportRepository.save(passport);
-        return passport;
+    public void delete(Long id) {
+        passportRepository.deleteById(id);
+    }
+
+    @Override
+    public boolean existById(Long id) {
+        return passportRepository.existsById(id);
     }
 }

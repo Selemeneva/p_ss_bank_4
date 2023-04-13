@@ -10,4 +10,5 @@ public interface RegistrationService {
     Registration getById(Long id);
     void delete(Registration registration);
     void update(Registration registration);
+    boolean existById(Long id);
 }

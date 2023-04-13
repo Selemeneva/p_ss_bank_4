@@ -2,46 +2,98 @@ package com.bank.profile.controllers;
 
 import com.bank.profile.dto.AccountDetailsIdDto;
 import com.bank.profile.entity.AccountDetailsId;
+import com.bank.profile.mapper.AccountDetailsIdMapper;
 import com.bank.profile.service.AccountDetailsIdService;
-import org.springframework.http.HttpStatus;
+import com.bank.profile.service.ProfileService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.List;
 
 @RestController
 @RequestMapping("/account_details_id/")
 public class AccountDetailsIdController {
     private final AccountDetailsIdService accountDetailsIdService;
+    private final AccountDetailsIdMapper accountDetailsIdMapper;
+    private final ProfileService profileService;
+    private static final Logger logger = LoggerFactory.getLogger(RegistrationController.class);
 
-    public AccountDetailsIdController(AccountDetailsIdService accountDetailsIdService) {
+    public AccountDetailsIdController(AccountDetailsIdService accountDetailsIdService, AccountDetailsIdMapper accountDetailsIdMapper, ProfileService profileService) {
         this.accountDetailsIdService = accountDetailsIdService;
+        this.accountDetailsIdMapper = accountDetailsIdMapper;
+        this.profileService = profileService;
     }
 
     @GetMapping("list")
     public ResponseEntity<List<AccountDetailsId>> getAllAccountDetailsId() {
-        List<AccountDetailsId> accountDetailsIds = accountDetailsIdService.findAll();
-        return ResponseEntity.ok(accountDetailsIds);
+        logger.info("Запрос списка всех счетов");
+        List<AccountDetailsId> accountDetailsIdList = accountDetailsIdService.findAll();
+        return ResponseEntity.ok(accountDetailsIdList);
     }
+
     @GetMapping("{id}")
-    public ResponseEntity<AccountDetailsId> getAccountDetailsId(@PathVariable long id) {
-        AccountDetailsId accountDetailsId = accountDetailsIdService.getById(id);
+    public ResponseEntity<AccountDetailsId> getAccountDetailsIdById(@PathVariable Long id) {
+        logger.info("Запрос счёта с id {}", id);
+
+        if (!accountDetailsIdService.existById(id)) {
+            throw new EntityNotFoundException("Счёта с таким id не существует");
+        }
+
+        AccountDetailsId accountDetailsId = accountDetailsIdService.findById(id);
+
         return ResponseEntity.ok(accountDetailsId);
     }
+
     @PostMapping("create")
     public ResponseEntity<AccountDetailsId> createAccountDetailsId(@RequestBody AccountDetailsIdDto accountDetailsIdDto) {
-        AccountDetailsId accountDetailsId = accountDetailsIdService.save(accountDetailsIdDto);
-        return new ResponseEntity<>(accountDetailsId, HttpStatus.CREATED);
+        logger.info("Запрос на создание нового счёта");
+        Long profileId = accountDetailsIdDto.getProfileId();
+
+        if (!profileService.existById(profileId)) {
+            throw new EntityNotFoundException("Профиля с таким id не существует");
+        }
+        AccountDetailsId accountDetailsId = accountDetailsIdMapper.toEntity(accountDetailsIdDto);
+        accountDetailsId.setOwner(profileService.findById(profileId));
+
+        accountDetailsIdService.save(accountDetailsId);
+
+        return ResponseEntity.ok(accountDetailsId);
     }
-    @PatchMapping("update/{id}")
-    public ResponseEntity<AccountDetailsId> updateAccountDetailsId(@RequestBody AccountDetailsIdDto accountDetailsIdDto, @PathVariable Long id) {
-        AccountDetailsId accountDetailsId = accountDetailsIdService.update(accountDetailsIdDto, id);
-        return new ResponseEntity<>(accountDetailsId, HttpStatus.CREATED);
+
+    @PatchMapping("update")
+    public ResponseEntity<AccountDetailsId> updateAccountDetailsId(@RequestBody AccountDetailsIdDto accountDetailsIdDto) {
+        logger.info("Запрос на обновление счёта");
+        Long profileId = accountDetailsIdDto.getProfileId();
+        Long id = accountDetailsIdDto.getId();
+
+        if (!accountDetailsIdService.existById(id)) {
+            throw new EntityNotFoundException("Счёта с таким id не существует");
+        }
+        if (!profileService.existById(profileId)) {
+            throw new EntityNotFoundException("Профиля с таким id не существует");
+        }
+
+        AccountDetailsId accountDetailsId = accountDetailsIdMapper.toEntity(accountDetailsIdDto);
+        accountDetailsId.setOwner(profileService.findById(profileId));
+
+        accountDetailsIdService.update(accountDetailsId);
+
+        return ResponseEntity.ok(accountDetailsId);
     }
+
     @DeleteMapping("delete/{id}")
-    public ResponseEntity<AccountDetailsId> createAccountDetailsId(@PathVariable Long id) {
-        AccountDetailsId accountDetailsId = accountDetailsIdService.getById(id);
-        accountDetailsIdService.delete(accountDetailsId);
+    public ResponseEntity<AccountDetailsId> deleteAccountDetailsIdById(@PathVariable Long id) {
+        logger.info("Запрос на удаление счёта с id {}", id);
+
+        if (!accountDetailsIdService.existById(id)) {
+            throw new EntityNotFoundException("Счёта с таким id не существует");
+        }
+
+        accountDetailsIdService.deleteById(id);
         return ResponseEntity.ok().build();
     }
+
 }

@@ -1,5 +1,6 @@
 package com.bank.profile.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -40,4 +41,8 @@ public class ActualRegistration {
     private String flatNumber;
 
     private Long index;
+
+    @JsonIgnore
+    @OneToOne(mappedBy = "actualRegistration")
+    private Profile profile;
 }

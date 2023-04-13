@@ -1,57 +1,108 @@
 package com.bank.profile.controllers;
 
 import com.bank.profile.dto.PassportDto;
+import com.bank.profile.dto.RegistrationDto;
 import com.bank.profile.entity.Passport;
+import com.bank.profile.entity.Registration;
 import com.bank.profile.mapper.PassportMapper;
+import com.bank.profile.mapper.RegistrationMapper;
 import com.bank.profile.service.PassportService;
-import io.swagger.annotations.Api;
-import org.springframework.http.HttpStatus;
+import com.bank.profile.service.RegistrationService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.List;
 
 @RestController
-@Api(description = "Операции с паспортами")
 @RequestMapping("/passport/")
 public class PassportController {
+
     private final PassportService passportService;
     private final PassportMapper passportMapper;
+    private final RegistrationService registrationService;
+    private final RegistrationMapper registrationMapper;
+    private static final Logger logger = LoggerFactory.getLogger(RegistrationController.class);
 
-    public PassportController(PassportService passportService, PassportMapper passportMapper) {
+    public PassportController(PassportService passportService, PassportMapper passportMapper, RegistrationMapper registrationMapper, RegistrationService registrationService, RegistrationMapper registrationMapper1) {
         this.passportService = passportService;
         this.passportMapper = passportMapper;
+        this.registrationService = registrationService;
+        this.registrationMapper = registrationMapper1;
     }
-
 
     @GetMapping("list")
     public ResponseEntity<List<Passport>> getAllPassports() {
+        logger.info("Запрос списка всех паспортов");
         List<Passport> passports = passportService.findAll();
+
         return ResponseEntity.ok(passports);
     }
 
     @GetMapping("{id}")
     public ResponseEntity<Passport> getPassportById(@PathVariable long id) {
-        Passport passport = passportService.getById(id);
+        logger.info("Запрос паспорта с id {}", id);
+
+        if (!passportService.existById(id)) {
+            throw new EntityNotFoundException("Паспорта с таким id не существует");
+        }
+
+        Passport passport = passportService.findById(id);
+
         return ResponseEntity.ok(passport);
     }
 
     @PostMapping("create")
     public ResponseEntity<Passport> createPassport(@RequestBody PassportDto passportDto) {
-        Passport passport = passportService.save(passportDto);
-        return new ResponseEntity<>(passport, HttpStatus.CREATED);
+        logger.info("Запрос на создание паспорта");
+
+        Passport passport = passportMapper.toEntity(passportDto);
+        Long registrationId = passportDto.getRegistrationId();
+
+        if (!registrationService.existById(registrationId)) {
+            throw new EntityNotFoundException("Вы пытаетесь создать паспорт с не существующей регистрацией");
+        }
+
+        passport.setRegistration(registrationService.getById(registrationId));
+        passportService.save(passport);
+
+        return ResponseEntity.ok(passport);
     }
 
-    @PatchMapping("update/{id}")
-    public ResponseEntity<Passport> updatePassport(@RequestBody PassportDto passportDto, @PathVariable Long id) {
-        Passport passport = passportService.update(passportDto, id);
+    @PatchMapping("update")
+    public ResponseEntity<Passport> updatePassport(@RequestBody PassportDto passportDto) {
+        Long id = passportDto.getId();
+        Long registrationId = passportDto.getRegistrationId();
+
+        logger.info("Запрос на обновление паспорта с id {}", id);
+
+        if (!passportService.existById(id)) {
+            throw new EntityNotFoundException("Паспорта с таким id не существует");
+        }
+
+        if (!registrationService.existById(registrationId)) {
+            throw new EntityNotFoundException("Вы пытаетесь создать паспорт с не существующей регистрацией");
+        }
+
+        Passport passport = passportMapper.toEntity(passportDto);
+
+        passport.setRegistration(registrationService.getById(registrationId));
+        passportService.update(passport);
+
         return ResponseEntity.ok(passport);
     }
 
     @DeleteMapping("delete/{id}")
     public ResponseEntity<Passport> deleteUser(@PathVariable Long id) {
-        Passport passport = passportService.getById(id);
-        passportService.delete(passport);
+        logger.info("Запрос на удаление паспорта с id {}", id);
+
+        if (!passportService.existById(id)) {
+            throw new EntityNotFoundException("Паспорта с таким id не существует");
+        }
+
+        passportService.delete(id);
         return ResponseEntity.ok().build();
     }
 }

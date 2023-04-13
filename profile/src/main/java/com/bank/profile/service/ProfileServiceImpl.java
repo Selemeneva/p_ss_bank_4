@@ -1,39 +1,30 @@
 package com.bank.profile.service;
 
-import com.bank.profile.dto.ProfileDto;
-import com.bank.profile.entity.ActualRegistration;
-import com.bank.profile.entity.Passport;
 import com.bank.profile.entity.Profile;
-import com.bank.profile.mapper.PassportMapper;
-import com.bank.profile.mapper.ProfileMapper;
 import com.bank.profile.repository.ProfileRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Service
 public class ProfileServiceImpl implements ProfileService {
     private final ProfileRepository profileRepository;
-    private final PassportService passportService;
-    private final ActualRegistrationService actualRegistrationService;
-    private final ProfileMapper profileMapper;
 
-    public ProfileServiceImpl(ProfileRepository profileRepository, PassportService passportService, PassportMapper passportMapper, ActualRegistrationService actualRegistrationService, ProfileMapper profileMapper) {
+
+    public ProfileServiceImpl(ProfileRepository profileRepository) {
         this.profileRepository = profileRepository;
-        this.passportService = passportService;
-        this.actualRegistrationService = actualRegistrationService;
-        this.profileMapper = profileMapper;
     }
 
     @Override
-    public Profile save(ProfileDto profileDto) {
-        Profile profile = profileMapper.toEntity(profileDto);
-        Passport passport = passportService.getById(profileDto.getPassportId());
-        profile.setPassport(passport);
-        ActualRegistration actualRegistration = actualRegistrationService.getById(profileDto.getActualRegistrationId());
-        profile.setActualRegistration(actualRegistration);
+    public void save(Profile profile) {
+        profile.setId(null);
         profileRepository.save(profile);
-        return profile;
+    }
+
+    @Override
+    public void update(Profile profile) {
+        profileRepository.save(profile);
     }
 
     @Override
@@ -42,20 +33,21 @@ public class ProfileServiceImpl implements ProfileService {
     }
 
     @Override
-    public Profile getById(Long id) {
+    public Profile findById(Long id) {
         return profileRepository.getReferenceById(id);
     }
 
     @Override
-    public Profile update(ProfileDto profileDto, Long id) {
-        Profile profile = profileMapper.toEntity(profileDto);
-        profile.setId(id);
-        Passport passport = passportService.getById(profileDto.getPassportId());
-        profile.setPassport(passport);
-        ActualRegistration actualRegistration = actualRegistrationService.getById(profileDto.getActualRegistrationId());
-        profile.setActualRegistration(actualRegistration);
-        profileRepository.save(profile);
-        return profile;
+    public boolean existById(Long id) {
+        return profileRepository.existsById(id);
+    }
+
+    @Transactional
+    @Override
+    public void deleteById(Long id) {
+        Profile profile = findById(id);
+        profileRepository.delete(profile);
+        System.out.println("Я отработал");
     }
 
     @Override

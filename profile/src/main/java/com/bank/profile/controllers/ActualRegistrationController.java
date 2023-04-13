@@ -1,15 +1,15 @@
 package com.bank.profile.controllers;
 
 import com.bank.profile.dto.ActualRegistrationDto;
-import com.bank.profile.dto.RegistrationDto;
 import com.bank.profile.entity.ActualRegistration;
-import com.bank.profile.entity.Registration;
 import com.bank.profile.mapper.ActualRegistrationMapper;
 import com.bank.profile.service.ActualRegistrationService;
-import org.springframework.http.HttpStatus;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.List;
 
 @RestController
@@ -17,6 +17,7 @@ import java.util.List;
 public class ActualRegistrationController {
     private final ActualRegistrationService actualRegistrationService;
     private final ActualRegistrationMapper actualRegistrationMapper;
+    private static final Logger logger = LoggerFactory.getLogger(ActualRegistrationController.class);
 
     public ActualRegistrationController(ActualRegistrationService actualRegistrationService, ActualRegistrationMapper actualRegistrationMapper) {
         this.actualRegistrationService = actualRegistrationService;
@@ -25,33 +26,58 @@ public class ActualRegistrationController {
 
     @GetMapping("list")
     public ResponseEntity<List<ActualRegistration>> getAllActualRegistrations() {
+        logger.info("Запрос списка всех актуальных регистраций");
+
         List<ActualRegistration> actualRegistrations = actualRegistrationService.findAll();
+
         return ResponseEntity.ok(actualRegistrations);
+    }
+
+    @PostMapping("create")
+    public ResponseEntity<ActualRegistration> createActualRegistration(@RequestBody ActualRegistrationDto actualRegistrationDto){
+        logger.info("Создание новой актуальной регистрации");
+
+        ActualRegistration actualRegistration = actualRegistrationMapper.toEntity(actualRegistrationDto);
+        actualRegistrationService.save(actualRegistration);
+
+        return ResponseEntity.ok(actualRegistration);
     }
 
     @GetMapping("{id}")
     public ResponseEntity<ActualRegistration> getActualRegistrationById(@PathVariable long id) {
-        ActualRegistration actualRegistration = actualRegistrationService.getById(id);
+        logger.info("Запрос актуальной регистрации с id {}", id);
+
+        if (!actualRegistrationService.existById(id)) {
+            throw new EntityNotFoundException("Актуальной регистрации с таким id не существует");
+        }
+        ActualRegistration actualRegistration = actualRegistrationService.findById(id);
         return ResponseEntity.ok(actualRegistration);
     }
-    @PostMapping("create")
-    public ResponseEntity<ActualRegistration> createRegistration(@RequestBody ActualRegistrationDto actualregistrationDto) {
-        ActualRegistration actualRegistration = actualRegistrationService.save(actualregistrationDto);
-        return new ResponseEntity<>(actualRegistration, HttpStatus.CREATED);
-    }
 
-    @PatchMapping("update/{id}")
-    public ResponseEntity<ActualRegistration> updateActualRegistrationById(@RequestBody ActualRegistrationDto actualRegistrationDto, @PathVariable Long id) {
+    @PatchMapping("update")
+    public ResponseEntity<ActualRegistration> updateActualRegistrationById(@RequestBody ActualRegistrationDto actualRegistrationDto) {
+        Long id = actualRegistrationDto.getId();
+
+        logger.info("Запрос на редактирование актуальной регистрации с id {}", id);
         ActualRegistration actualRegistration = actualRegistrationMapper.toEntity(actualRegistrationDto);
-        actualRegistration.setId(id);
+
+        if (!actualRegistrationService.existById(id)) {
+            throw new EntityNotFoundException("Регистрации с таким id не существует");
+        }
+
         actualRegistrationService.update(actualRegistration);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok(actualRegistration);
     }
 
-    @DeleteMapping("{id}")
-    public ResponseEntity<Registration> deleteUser(@PathVariable Long id) {
-        ActualRegistration actualRegistration = actualRegistrationService.getById(id);
-        actualRegistrationService.delete(actualRegistration);
+    @DeleteMapping("delete/{id}")
+    public ResponseEntity<ActualRegistration> deleteUser(@PathVariable Long id) {
+        logger.info("Запрос на удаление актуальной регистрации с id {}", id);
+
+        if (!actualRegistrationService.existById(id)) {
+            throw new EntityNotFoundException("актуальной регистрации с таким id не существует");
+        }
+
+        actualRegistrationService.delete(id);
         return ResponseEntity.ok().build();
     }
 }

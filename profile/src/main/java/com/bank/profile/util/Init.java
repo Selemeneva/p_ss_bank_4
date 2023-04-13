@@ -1,15 +1,14 @@
 package com.bank.profile.util;
 
-import com.bank.profile.dto.AccountDetailsIdDto;
-import com.bank.profile.dto.ActualRegistrationDto;
-import com.bank.profile.dto.PassportDto;
 import com.bank.profile.dto.ProfileDto;
 import com.bank.profile.entity.*;
+import com.bank.profile.mapper.*;
 import com.bank.profile.service.*;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import java.time.LocalDate;
+import java.time.OffsetDateTime;
 
 @Component
 public class Init {
@@ -18,13 +17,19 @@ public class Init {
     private final ActualRegistrationService actualRegistrationService;
     private final ProfileService profileService;
     private final AccountDetailsIdService accountDetailsIdService;
+    private final AuditService auditService;
+    private final ProfileMapper profileMapper;
 
-    public Init(RegistrationService registrationService, PassportService passportService, ActualRegistrationService actualRegistrationService, ProfileService profileService, AccountDetailsIdService accountDetailsIdService) {
+
+    public Init(RegistrationService registrationService, PassportService passportService, ActualRegistrationService actualRegistrationService, ProfileService profileService, AccountDetailsIdService accountDetailsIdService, AuditService auditService, ProfileMapper profileMapper) {
         this.registrationService = registrationService;
         this.passportService = passportService;
         this.actualRegistrationService = actualRegistrationService;
         this.profileService = profileService;
         this.accountDetailsIdService = accountDetailsIdService;
+        this.auditService = auditService;
+
+        this.profileMapper = profileMapper;
     }
 
     @PostConstruct
@@ -43,42 +48,43 @@ public class Init {
         registration.setColumns(12);
         registrationService.save(registration);
 
-        PassportDto passportDto = new PassportDto();
-        passportDto.setSeries(5);
-        passportDto.setNumber(12345L);
-        passportDto.setLastName("Lastname");
-        passportDto.setFirstName("Firstname");
-        passportDto.setMiddleName("Middlename");
-        passportDto.setGender("МУЖ");
-        passportDto.setBirthDate(LocalDate.ofEpochDay(2007-12-03));
-        passportDto.setBirthPlace("Russia");
-        passportDto.setIssuedBy("РОВД");
-        passportDto.setDateOfIssue(LocalDate.ofEpochDay(2016-12-03));
-        passportDto.setDivisionCode(45);
-        passportDto.setExpirationDate(LocalDate.ofEpochDay(2020-12-03));
-        passportDto.setRegistrationId(registration.getId());
-        Passport passport = passportService.save(passportDto);
+        Passport passport = new Passport();
+        passport.setSeries(5);
+        passport.setNumber(12345L);
+        passport.setLastName("Lastname");
+        passport.setFirstName("Firstname");
+        passport.setMiddleName("Middlename");
+        passport.setGender("МУЖ");
+        passport.setBirthDate(LocalDate.ofEpochDay(2007-12-03));
+        passport.setBirthPlace("Russia");
+        passport.setIssuedBy("РОВД");
+        passport.setDateOfIssue(LocalDate.ofEpochDay(2016-12-03));
+        passport.setDivisionCode(45);
+        passport.setExpirationDate(LocalDate.ofEpochDay(2020-12-03));
+        passport.setRegistration(registration);
+        passportService.save(passport);
 
-        ActualRegistrationDto actualRegistrationDto = new ActualRegistrationDto();
-        actualRegistrationDto.setCountry("Russia");
-        actualRegistrationDto.setIndex(12345L);
-        ActualRegistration actualRegistration = actualRegistrationService.save(actualRegistrationDto);
+        ActualRegistration actualRegistration = new ActualRegistration();
+        actualRegistration.setCountry("Russia");
+        actualRegistration.setIndex(12345L);
+        actualRegistrationService.save(actualRegistration);
 
-        ProfileDto profileDto = new ProfileDto();
-        profileDto.setPhoneNumber(1243455L);
-        profileDto.setPassportId(passport.getId());
-        profileDto.setActualRegistrationId(actualRegistration.getId());
-        Profile profile = profileService.save(profileDto);
+        Profile profile = new Profile();
+        profile.setPhoneNumber(1243455L);
+        profile.setPassport(passport);
+        profile.setActualRegistration(actualRegistration);
+        profileService.save(profile);
 
-        AccountDetailsIdDto accountDetailsIdDto1 = new AccountDetailsIdDto();
-        accountDetailsIdDto1.setProfileId(1L);
-        accountDetailsIdDto1.setAccountId(123456L);
-        AccountDetailsId accountDetailsId1 = accountDetailsIdService.save(accountDetailsIdDto1);
+        AccountDetailsId accountDetailsId1 = new AccountDetailsId();
+        accountDetailsId1.setOwner(profile);
+        accountDetailsId1.setAccountId(123456L);
+        accountDetailsId1.setOwner(profile);
+        accountDetailsIdService.save(accountDetailsId1);
 
-        AccountDetailsIdDto accountDetailsIdDto2 = new AccountDetailsIdDto();
-        accountDetailsIdDto2.setProfileId(1L);
-        accountDetailsIdDto2.setAccountId(9999999L);
-        AccountDetailsId accountDetailsId2 = accountDetailsIdService.save(accountDetailsIdDto2);
+        AccountDetailsId accountDetailsId2 = new AccountDetailsId();
+        accountDetailsId2.setOwner(profile);
+        accountDetailsId2.setAccountId(123456789L);
+        accountDetailsIdService.save(accountDetailsId2);
 
 //        Audit audit = new Audit();
 //        audit.setEntityType("profile");
