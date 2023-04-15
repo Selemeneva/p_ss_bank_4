@@ -1,13 +1,13 @@
 package com.bank.profile.controllers;
 
 import com.bank.profile.dto.PassportDto;
-import com.bank.profile.dto.RegistrationDto;
 import com.bank.profile.entity.Passport;
-import com.bank.profile.entity.Registration;
 import com.bank.profile.mapper.PassportMapper;
 import com.bank.profile.mapper.RegistrationMapper;
 import com.bank.profile.service.PassportService;
 import com.bank.profile.service.RegistrationService;
+import com.bank.profile.util.Updater;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
@@ -65,14 +65,14 @@ public class PassportController {
             throw new EntityNotFoundException("Вы пытаетесь создать паспорт с не существующей регистрацией");
         }
 
-        passport.setRegistration(registrationService.getById(registrationId));
+        passport.setRegistration(registrationService.findById(registrationId));
         passportService.save(passport);
 
         return ResponseEntity.ok(passport);
     }
 
     @PatchMapping("update")
-    public ResponseEntity<Passport> updatePassport(@RequestBody PassportDto passportDto) {
+    public ResponseEntity<Passport> updatePassport(@RequestBody PassportDto passportDto) throws JsonProcessingException {
         Long id = passportDto.getId();
         Long registrationId = passportDto.getRegistrationId();
 
@@ -86,9 +86,11 @@ public class PassportController {
             throw new EntityNotFoundException("Вы пытаетесь создать паспорт с не существующей регистрацией");
         }
 
+        Passport unupdatedPassport = passportService.findById(id);
         Passport passport = passportMapper.toEntity(passportDto);
+        passport.setRegistration(registrationService.findById(registrationId));
 
-        passport.setRegistration(registrationService.getById(registrationId));
+        Updater.updateInformationAboutCreating(passport, unupdatedPassport);
         passportService.update(passport);
 
         return ResponseEntity.ok(passport);

@@ -4,6 +4,8 @@ import com.bank.profile.dto.RegistrationDto;
 import com.bank.profile.entity.Registration;
 import com.bank.profile.mapper.RegistrationMapper;
 import com.bank.profile.service.RegistrationService;
+import com.bank.profile.util.Updater;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -20,6 +22,7 @@ public class RegistrationController {
     private final RegistrationService registrationService;
     private final RegistrationMapper registrationMapper;
     private static final Logger logger = LoggerFactory.getLogger(RegistrationController.class);
+
 
     @Autowired
     public RegistrationController(RegistrationService registrationService, RegistrationMapper registrationMapper) {
@@ -44,7 +47,7 @@ public class RegistrationController {
             throw new EntityNotFoundException("Регистрации с таким id не существует");
         }
 
-        Registration registration =  registrationService.getById(id);
+        Registration registration =  registrationService.findById(id);
         return ResponseEntity.ok(registration);
     }
 
@@ -59,17 +62,20 @@ public class RegistrationController {
     }
 
     @PatchMapping("update")
-    public ResponseEntity<Registration> updateRegistration(@RequestBody RegistrationDto registrationDto){
+    public ResponseEntity<Registration> updateRegistration(@RequestBody RegistrationDto registrationDto) throws JsonProcessingException {
         Long id = registrationDto.getId();
-
         logger.info("Запрос на редактирование регистрации с id {}", id);
-        Registration registration = registrationMapper.toEntity(registrationDto);
 
         if (!registrationService.existById(id)) {
             throw new EntityNotFoundException("Регистрации с таким id не существует");
         }
 
+        Registration unupdatedRegistration = registrationService.findById(id);
+        Registration registration = registrationMapper.toEntity(registrationDto);
+
+        Updater.updateInformationAboutCreating(registration, unupdatedRegistration);
         registrationService.update(registration);
+
         return ResponseEntity.ok(registration);
     }
 

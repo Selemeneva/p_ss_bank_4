@@ -1,15 +1,16 @@
 package com.bank.profile.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
 
 @Entity
-@Data
+@Builder
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
@@ -34,7 +35,7 @@ public class Audit {
     private OffsetDateTime createdAt;
 
     @Column(name = "modified_at")
-    private OffsetDateTime modifieddAt;
+    private OffsetDateTime modifiedAt;
 
     @Column(name = "new_entity_json")
     private String newEntityJson;

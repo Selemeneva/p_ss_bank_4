@@ -1,5 +1,7 @@
 package com.bank.profile.entity;
 
+import com.bank.profile.audit.AuditListener;
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
@@ -12,12 +14,10 @@ import javax.persistence.*;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@JsonAutoDetect
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @Table(name = "actual_registration")
-public class ActualRegistration {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class ActualRegistration extends BaseEntity {
 
     private String country;
 

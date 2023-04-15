@@ -27,7 +27,7 @@ public class RegistrationServiceImpl implements RegistrationService{
     }
 
     @Override
-    public Registration getById(Long id) {
+    public Registration findById(Long id) {
         return registrationRepository.getReferenceById(id);
     }
 
@@ -37,9 +37,7 @@ public class RegistrationServiceImpl implements RegistrationService{
     }
 
     @Override
-    public void update(Registration registration) {
-        registrationRepository.save(registration);
-    }
+    public void update(Registration registration) { registrationRepository.save(registration); }
 
     @Override
     public boolean existById(Long id) {

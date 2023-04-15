@@ -4,6 +4,8 @@ import com.bank.profile.dto.ActualRegistrationDto;
 import com.bank.profile.entity.ActualRegistration;
 import com.bank.profile.mapper.ActualRegistrationMapper;
 import com.bank.profile.service.ActualRegistrationService;
+import com.bank.profile.util.Updater;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
@@ -55,17 +57,20 @@ public class ActualRegistrationController {
     }
 
     @PatchMapping("update")
-    public ResponseEntity<ActualRegistration> updateActualRegistrationById(@RequestBody ActualRegistrationDto actualRegistrationDto) {
+    public ResponseEntity<ActualRegistration> updateActualRegistrationById(@RequestBody ActualRegistrationDto actualRegistrationDto) throws JsonProcessingException {
         Long id = actualRegistrationDto.getId();
 
         logger.info("Запрос на редактирование актуальной регистрации с id {}", id);
-        ActualRegistration actualRegistration = actualRegistrationMapper.toEntity(actualRegistrationDto);
 
         if (!actualRegistrationService.existById(id)) {
             throw new EntityNotFoundException("Регистрации с таким id не существует");
         }
+        ActualRegistration unupdatedActualRegistration = actualRegistrationService.findById(id);
+        ActualRegistration actualRegistration = actualRegistrationMapper.toEntity(actualRegistrationDto);
 
+        Updater.updateInformationAboutCreating(actualRegistration, unupdatedActualRegistration);
         actualRegistrationService.update(actualRegistration);
+
         return ResponseEntity.ok(actualRegistration);
     }
 

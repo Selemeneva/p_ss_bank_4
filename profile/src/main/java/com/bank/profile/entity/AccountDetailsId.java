@@ -1,23 +1,24 @@
 package com.bank.profile.entity;
 
+import com.bank.profile.audit.AuditListener;
+import com.bank.profile.configuration.AccountDetailsIdSerializer;
+import com.bank.profile.configuration.PassportSerializer;
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import lombok.*;
 
 import javax.persistence.*;
 
 @Entity
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+@JsonSerialize(using = AccountDetailsIdSerializer.class)
 @Table(name = "account_details_id")
-public class AccountDetailsId {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class AccountDetailsId extends BaseEntity {
 
     @Column(name = "account_id")
     private Long accountId;

@@ -1,0 +1,34 @@
+package com.bank.profile.configuration;
+
+import com.bank.profile.entity.Profile;
+import com.fasterxml.jackson.core.JsonGenerator;
+import com.fasterxml.jackson.databind.SerializerProvider;
+import com.fasterxml.jackson.databind.ser.std.StdSerializer;
+
+import java.io.IOException;
+
+public class ProfileSerializer extends StdSerializer<Profile> {
+    public ProfileSerializer() {
+        this(null);
+    }
+
+    protected ProfileSerializer(Class<Profile> t) {
+        super(t);
+    }
+
+    @Override
+    public void serialize(Profile profile, JsonGenerator jsonGenerator, SerializerProvider serializerProvider) throws IOException {
+        jsonGenerator.writeStartObject();
+
+        jsonGenerator.writeStringField("id", String.valueOf(profile.getId()));
+        jsonGenerator.writeStringField("phoneNumber", String.valueOf(profile.getPhoneNumber()));
+        jsonGenerator.writeStringField("email", profile.getEmail());
+        jsonGenerator.writeStringField("nameOfCard", profile.getNameOnCard());
+        jsonGenerator.writeStringField("inn", String.valueOf(profile.getInn()));
+        jsonGenerator.writeStringField("snils", String.valueOf(profile.getSnils()));
+        jsonGenerator.writeStringField("passportId", String.valueOf(profile.getPassport().getId()));
+        jsonGenerator.writeStringField("actualRegistrationId", String.valueOf(profile.getActualRegistration().getId()));
+
+        jsonGenerator.writeEndObject();
+    }
+}

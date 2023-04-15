@@ -7,8 +7,10 @@ import com.bank.profile.service.*;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.time.OffsetDateTime;
+import java.util.Locale;
 
 @Component
 public class Init {
@@ -33,7 +35,8 @@ public class Init {
     }
 
     @PostConstruct
-    public void initialization() {
+    public void initialization() throws ParseException {
+
         Registration registration = new Registration();
         registration.setCountry("Russia");
         registration.setRegion("Europa");
@@ -55,12 +58,12 @@ public class Init {
         passport.setFirstName("Firstname");
         passport.setMiddleName("Middlename");
         passport.setGender("МУЖ");
-        passport.setBirthDate(LocalDate.ofEpochDay(2007-12-03));
+        passport.setBirthDate(LocalDate.of(1997, 7, 22));
         passport.setBirthPlace("Russia");
         passport.setIssuedBy("РОВД");
-        passport.setDateOfIssue(LocalDate.ofEpochDay(2016-12-03));
+        passport.setDateOfIssue(LocalDate.of(1997, 7, 22));
         passport.setDivisionCode(45);
-        passport.setExpirationDate(LocalDate.ofEpochDay(2020-12-03));
+        passport.setExpirationDate(LocalDate.of(1997, 7, 22));
         passport.setRegistration(registration);
         passportService.save(passport);
 

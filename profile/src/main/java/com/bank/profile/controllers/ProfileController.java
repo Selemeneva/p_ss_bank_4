@@ -6,6 +6,8 @@ import com.bank.profile.mapper.ProfileMapper;
 import com.bank.profile.service.ActualRegistrationService;
 import com.bank.profile.service.PassportService;
 import com.bank.profile.service.ProfileService;
+import com.bank.profile.util.Updater;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
@@ -75,7 +77,7 @@ public class ProfileController {
     }
 
     @PatchMapping("update")
-    public ResponseEntity<Profile> updateProfile(@RequestBody ProfileDto profileDto) {
+    public ResponseEntity<Profile> updateProfile(@RequestBody ProfileDto profileDto) throws JsonProcessingException {
         Long id = profileDto.getId();
         Long actualRegistrationId = profileDto.getActualRegistrationId();
         Long passportId = profileDto.getPassportId();
@@ -94,8 +96,10 @@ public class ProfileController {
             throw new EntityNotFoundException("Вы пытаетесь создать профиль с не существующим паспортом");
         }
 
+        Profile unupdatedProfile = profileService.findById(id);
         Profile profile = profileMapper.toEntity(profileDto);
 
+        Updater.updateInformationAboutCreating(profile, unupdatedProfile);
         profile.setPassport(passportService.findById(passportId));
         profile.setActualRegistration(actualRegistrationService.findById(actualRegistrationId));
 

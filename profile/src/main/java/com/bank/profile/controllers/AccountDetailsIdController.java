@@ -5,6 +5,8 @@ import com.bank.profile.entity.AccountDetailsId;
 import com.bank.profile.mapper.AccountDetailsIdMapper;
 import com.bank.profile.service.AccountDetailsIdService;
 import com.bank.profile.service.ProfileService;
+import com.bank.profile.util.Updater;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
@@ -55,16 +57,15 @@ public class AccountDetailsIdController {
         if (!profileService.existById(profileId)) {
             throw new EntityNotFoundException("Профиля с таким id не существует");
         }
-        AccountDetailsId accountDetailsId = accountDetailsIdMapper.toEntity(accountDetailsIdDto);
-        accountDetailsId.setOwner(profileService.findById(profileId));
 
+        AccountDetailsId accountDetailsId = accountDetailsIdMapper.toEntity(accountDetailsIdDto);
         accountDetailsIdService.save(accountDetailsId);
 
         return ResponseEntity.ok(accountDetailsId);
     }
 
     @PatchMapping("update")
-    public ResponseEntity<AccountDetailsId> updateAccountDetailsId(@RequestBody AccountDetailsIdDto accountDetailsIdDto) {
+    public ResponseEntity<AccountDetailsId> updateAccountDetailsId(@RequestBody AccountDetailsIdDto accountDetailsIdDto) throws JsonProcessingException {
         logger.info("Запрос на обновление счёта");
         Long profileId = accountDetailsIdDto.getProfileId();
         Long id = accountDetailsIdDto.getId();
@@ -76,9 +77,11 @@ public class AccountDetailsIdController {
             throw new EntityNotFoundException("Профиля с таким id не существует");
         }
 
+        AccountDetailsId unupdatedAccountDetailsId = accountDetailsIdService.findById(id);
         AccountDetailsId accountDetailsId = accountDetailsIdMapper.toEntity(accountDetailsIdDto);
-        accountDetailsId.setOwner(profileService.findById(profileId));
 
+        Updater.updateInformationAboutCreating(accountDetailsId, unupdatedAccountDetailsId);
+        accountDetailsId.setOwner(profileService.findById(profileId));
         accountDetailsIdService.update(accountDetailsId);
 
         return ResponseEntity.ok(accountDetailsId);

@@ -1,7 +1,10 @@
 package com.bank.profile.entity;
 
+import com.bank.profile.audit.AuditListener;
+import com.bank.profile.configuration.ProfileSerializer;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -15,12 +18,9 @@ import java.util.List;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+@JsonSerialize(using = ProfileSerializer.class)
 @Table(name = "profile")
-public class Profile {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class Profile extends BaseEntity {
 
     @Column(name = "phone_number")
     private Long phoneNumber;
@@ -34,7 +34,7 @@ public class Profile {
 
     private Long snils;
 
-    @JsonIgnore
+//    @JsonIgnore
     @OneToMany(mappedBy = "owner")
     private List<AccountDetailsId> accounts;
 

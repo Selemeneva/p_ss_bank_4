@@ -7,8 +7,8 @@ import java.util.List;
 public interface RegistrationService {
     void save(Registration registration);
     List<Registration> findAll();
-    Registration getById(Long id);
-    void delete(Registration registration);
+    Registration findById(Long id);
+    void delete(Long id);
     void update(Registration registration);
     boolean existById(Long id);
 }

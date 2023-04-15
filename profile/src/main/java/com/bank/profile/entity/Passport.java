@@ -1,24 +1,26 @@
 package com.bank.profile.entity;
 
+import com.bank.profile.audit.AuditListener;
+import com.bank.profile.configuration.PassportSerializer;
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.Date;
 
 @Entity
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+@JsonSerialize(using = PassportSerializer.class)
 @Table(name = "passport")
-public class Passport {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class Passport extends BaseEntity {
 
     private Integer series;
 
@@ -53,11 +55,12 @@ public class Passport {
     @Column(name = "expiration_date")
     private LocalDate expirationDate;
 
+//    @JsonIgnore
     @OneToOne
     @JoinColumn(name = "registration_id", referencedColumnName = "id")
     private Registration registration;
 
-    @JsonIgnore
+//    @JsonIgnore
     @OneToOne(mappedBy = "passport")
     private Profile profile;
 }
