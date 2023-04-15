@@ -58,7 +58,7 @@ public class PassportController {
     public ResponseEntity<Passport> createPassport(@RequestBody PassportDto passportDto) {
         logger.info("Запрос на создание паспорта");
 
-        Passport passport = passportMapper.toEntity(passportDto);
+        Passport passport = passportMapper.toEntity(passportDto, registrationService);
         Long registrationId = passportDto.getRegistrationId();
 
         if (!registrationService.existById(registrationId)) {
@@ -87,8 +87,7 @@ public class PassportController {
         }
 
         Passport unupdatedPassport = passportService.findById(id);
-        Passport passport = passportMapper.toEntity(passportDto);
-        passport.setRegistration(registrationService.findById(registrationId));
+        Passport passport = passportMapper.toEntity(passportDto, registrationService);
 
         Updater.updateInformationAboutCreating(passport, unupdatedPassport);
         passportService.update(passport);

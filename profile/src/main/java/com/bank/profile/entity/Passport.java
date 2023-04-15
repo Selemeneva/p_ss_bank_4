@@ -55,12 +55,10 @@ public class Passport extends BaseEntity {
     @Column(name = "expiration_date")
     private LocalDate expirationDate;
 
-//    @JsonIgnore
     @OneToOne
     @JoinColumn(name = "registration_id", referencedColumnName = "id")
     private Registration registration;
 
-//    @JsonIgnore
     @OneToOne(mappedBy = "passport")
     private Profile profile;
 }

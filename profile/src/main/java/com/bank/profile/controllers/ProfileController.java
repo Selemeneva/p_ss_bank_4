@@ -58,7 +58,6 @@ public class ProfileController {
     public ResponseEntity<Profile> createProfile(@RequestBody ProfileDto profileDto) {
         logger.info("Запрос на создание профиля");
 
-        Profile profile = profileMapper.toEntity(profileDto);
         Long actualRegistrationId = profileDto.getActualRegistrationId();
         Long passportId = profileDto.getPassportId();
 
@@ -69,8 +68,7 @@ public class ProfileController {
             throw new EntityNotFoundException("Вы пытаетесь создать профиль с не существующей актуальной регистрацией");
         }
 
-        profile.setActualRegistration(actualRegistrationService.findById(actualRegistrationId));
-        profile.setPassport(passportService.findById(passportId));
+        Profile profile = profileMapper.toEntity(profileDto, passportService, actualRegistrationService);
         profileService.save(profile);
 
         return ResponseEntity.ok(profile);
@@ -97,12 +95,9 @@ public class ProfileController {
         }
 
         Profile unupdatedProfile = profileService.findById(id);
-        Profile profile = profileMapper.toEntity(profileDto);
+        Profile profile = profileMapper.toEntity(profileDto, passportService, actualRegistrationService);
 
         Updater.updateInformationAboutCreating(profile, unupdatedProfile);
-        profile.setPassport(passportService.findById(passportId));
-        profile.setActualRegistration(actualRegistrationService.findById(actualRegistrationId));
-
         profileService.update(profile);
 
         return ResponseEntity.ok(profile);

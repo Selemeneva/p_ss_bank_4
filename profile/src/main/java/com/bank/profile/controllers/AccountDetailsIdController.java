@@ -58,7 +58,7 @@ public class AccountDetailsIdController {
             throw new EntityNotFoundException("Профиля с таким id не существует");
         }
 
-        AccountDetailsId accountDetailsId = accountDetailsIdMapper.toEntity(accountDetailsIdDto);
+        AccountDetailsId accountDetailsId = accountDetailsIdMapper.toEntity(accountDetailsIdDto, profileService);
         accountDetailsIdService.save(accountDetailsId);
 
         return ResponseEntity.ok(accountDetailsId);
@@ -78,10 +78,9 @@ public class AccountDetailsIdController {
         }
 
         AccountDetailsId unupdatedAccountDetailsId = accountDetailsIdService.findById(id);
-        AccountDetailsId accountDetailsId = accountDetailsIdMapper.toEntity(accountDetailsIdDto);
+        AccountDetailsId accountDetailsId = accountDetailsIdMapper.toEntity(accountDetailsIdDto, profileService);
 
         Updater.updateInformationAboutCreating(accountDetailsId, unupdatedAccountDetailsId);
-        accountDetailsId.setOwner(profileService.findById(profileId));
         accountDetailsIdService.update(accountDetailsId);
 
         return ResponseEntity.ok(accountDetailsId);
