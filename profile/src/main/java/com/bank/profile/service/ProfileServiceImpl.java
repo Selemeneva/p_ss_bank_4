@@ -24,6 +24,7 @@ public class ProfileServiceImpl implements ProfileService {
         profileRepository.save(profile);
     }
 
+    @Transactional
     @Override
     public void update(Profile profile) throws JsonProcessingException {
         Profile unupdatedProfile = findById(profile.getId());
@@ -58,6 +59,7 @@ public class ProfileServiceImpl implements ProfileService {
         System.out.println("Я отработал");
     }
 
+    @Transactional
     @Override
     public void delete(Profile profile) {
         profileRepository.delete(profile);

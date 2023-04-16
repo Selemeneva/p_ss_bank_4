@@ -5,6 +5,7 @@ import com.bank.profile.repository.RegistrationRepository;
 import com.bank.profile.util.EntityJsonBeforeUpdateSaver;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -17,6 +18,7 @@ public class RegistrationServiceImpl implements RegistrationService{
         this.registrationRepository = registrationRepository;
     }
 
+    @Transactional
     @Override
     public void save(Registration registration) {
         registration.setId(null);
@@ -33,11 +35,13 @@ public class RegistrationServiceImpl implements RegistrationService{
         return registrationRepository.getReferenceById(id);
     }
 
+    @Transactional
     @Override
     public void delete(Registration registration) {
         registrationRepository.delete(registration);
     }
 
+    @Transactional
     @Override
     public void update(Registration registration) throws JsonProcessingException {
         Registration unupdatedRegistration = findById(registration.getId());

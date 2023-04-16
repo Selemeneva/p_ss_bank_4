@@ -5,6 +5,7 @@ import com.bank.profile.repository.AccountDetailsIdRepository;
 import com.bank.profile.util.EntityJsonBeforeUpdateSaver;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -16,7 +17,7 @@ public class AccountDetailsIdServiceImpl implements AccountDetailsIdService {
     public AccountDetailsIdServiceImpl(AccountDetailsIdRepository accountDetailsIdRepository) {
         this.accountDetailsIdRepository = accountDetailsIdRepository;
     }
-
+    @Transactional
     @Override
     public void save(AccountDetailsId accountDetailsId) {
         accountDetailsId.setId(null);
@@ -38,6 +39,7 @@ public class AccountDetailsIdServiceImpl implements AccountDetailsIdService {
         return accountDetailsIdRepository.getReferenceById(id);
     }
 
+    @Transactional
     @Override
     public void update(AccountDetailsId accountDetailsId) throws JsonProcessingException {
         AccountDetailsId unupdatedAccountDetailsId = findById(accountDetailsId.getId());
@@ -49,6 +51,7 @@ public class AccountDetailsIdServiceImpl implements AccountDetailsIdService {
         accountDetailsIdRepository.save(accountDetailsId);
     }
 
+    @Transactional
     @Override
     public void deleteById(Long id) {
         accountDetailsIdRepository.deleteById(id);

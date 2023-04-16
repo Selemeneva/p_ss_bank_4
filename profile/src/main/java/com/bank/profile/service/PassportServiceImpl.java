@@ -7,6 +7,7 @@ import com.bank.profile.repository.PassportRepository;
 import com.bank.profile.util.EntityJsonBeforeUpdateSaver;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -24,6 +25,7 @@ public class PassportServiceImpl implements PassportService {
         this.registrationService = registrationService;
     }
 
+    @Transactional
     @Override
     public void save(Passport passport) {
         passport.setId(null);
@@ -40,6 +42,7 @@ public class PassportServiceImpl implements PassportService {
         return passportRepository.getReferenceById(id);
     }
 
+    @Transactional
     @Override
     public void update(Passport passport) throws JsonProcessingException {
         Passport unupdatedPassport = findById(passport.getId());
@@ -51,6 +54,7 @@ public class PassportServiceImpl implements PassportService {
         passportRepository.save(passport);
     }
 
+    @Transactional
     @Override
     public void delete(Long id) {
         passportRepository.deleteById(id);

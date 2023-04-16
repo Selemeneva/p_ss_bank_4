@@ -1,30 +1,27 @@
 package com.bank.profile.service;
 
-import com.bank.profile.dto.ActualRegistrationDto;
 import com.bank.profile.entity.ActualRegistration;
-import com.bank.profile.mapper.ActualRegistrationMapper;
 import com.bank.profile.repository.ActualRegistrationRepository;
 import com.bank.profile.util.EntityJsonBeforeUpdateSaver;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Service
 public class ActualRegistrationImpl implements ActualRegistrationService {
     private final ActualRegistrationRepository actualRegistrationRepository;
-    private final ActualRegistrationMapper actualRegistrationMapper;
 
-    public ActualRegistrationImpl(ActualRegistrationRepository actualRegistrationRepository, ActualRegistrationMapper actualRegistrationMapper) {
+    public ActualRegistrationImpl(ActualRegistrationRepository actualRegistrationRepository) {
         this.actualRegistrationRepository = actualRegistrationRepository;
-        this.actualRegistrationMapper = actualRegistrationMapper;
     }
 
+    @Transactional
     @Override
-    public ActualRegistration save(ActualRegistrationDto actualRegistrationDto) {
-        ActualRegistration actualRegistration = actualRegistrationMapper.toEntity(actualRegistrationDto);
+    public void save(ActualRegistration actualRegistration) {
+        actualRegistration.setId(null);
         actualRegistrationRepository.save(actualRegistration);
-        return actualRegistration;
     }
 
     @Override
@@ -33,10 +30,11 @@ public class ActualRegistrationImpl implements ActualRegistrationService {
     }
 
     @Override
-    public ActualRegistration getById(Long id) {
+    public ActualRegistration findById(Long id) {
         return actualRegistrationRepository.getReferenceById(id);
     }
 
+    @Transactional
     @Override
     public void update(ActualRegistration actualRegistration) throws JsonProcessingException {
         ActualRegistration unupdatedActualRegistration = findById(actualRegistration.getId());
@@ -49,7 +47,13 @@ public class ActualRegistrationImpl implements ActualRegistrationService {
     }
 
     @Override
-    public void delete(ActualRegistration actualRegistration) {
-        actualRegistrationRepository.delete(actualRegistration);
+    public boolean existById(Long id) {
+        return actualRegistrationRepository.existsById(id);
+    }
+
+    @Transactional
+    @Override
+    public void delete(Long id) {
+        actualRegistrationRepository.deleteById(id);
     }
 }
