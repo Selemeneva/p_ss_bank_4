@@ -12,6 +12,9 @@ import org.springframework.beans.factory.annotation.Configurable;
 import javax.persistence.*;
 import java.time.OffsetDateTime;
 
+/**
+ * Класс AuditListener предназначен для отслеживания жизненного цикла экземпляров BaseEntity
+ */
 @Configurable
 public class AuditListener {
 

@@ -32,16 +32,16 @@ public class Registration extends BaseEntity {
     @Size(min = 4, max = 160, message = "Название региона должно быть длиннее 4 и короче 160 символов")
     private String region;
 
-    @Size(min = 1, max = 160, message = "Название города должно быть длиннее 1 и короче 160 символов")
+    @Size(max = 160, message = "Название города должно быть не длиннее 160 символов")
     private String city;
 
-    @Size(min = 1, max = 160, message = "Название района должно быть длиннее 1 и короче 160 символов")
+    @Size(max = 160, message = "Название района должно быть не длиннее 160 символов")
     private String district;
 
-    @Size(min = 1, max = 230, message = "Название населённого пункта должно быть длиннее 1 и короче 230 символов")
+    @Size(max = 230, message = "Название населённого пункта должно не длиннее 230 символов")
     private String locality;
 
-    @Size(min = 1, max = 230, message = "Название улицы должно быть длиннее 1 и короче 230 символов")
+    @Size(max = 230, message = "Название улицы должно быть не длиннее 230 символов")
     private String street;
 
     @Min(value = 1, message = "Номер дома должен быть больше 1")

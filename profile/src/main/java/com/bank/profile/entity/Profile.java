@@ -9,8 +9,19 @@ import lombok.Setter;
 import org.hibernate.annotations.Cascade;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
 import java.util.List;
 
+/**
+ *Класс Profile представляет собой информацию о банковском профиле,
+ * которая сохраняется в таблице profile.
+ * Passport связан отношением One-to-one с сущностями Passport и ActualRegistration, a также
+ * One-to-many с сущностью AccountDetailsId, поле accounts может быть пустым. При удалении экземпляра
+ * Profile каскадно удаляются связанные с ним экземпляры AccountDetailsId.
+ * Для сериализации спользуется ProfileSerializer
+ */
 @Entity
 @Getter
 @Setter
@@ -20,11 +31,14 @@ import java.util.List;
 @Table(name = "profile")
 public class Profile extends BaseEntity {
 
+    @NotEmpty(message = "Серия не может быть пустой")
     @Column(name = "phone_number")
     private Long phoneNumber;
 
+    @Email(message = "Email должен быть валидным")
     private String email;
 
+    @Size(max = 370, message = "Имя на карте должно быть не длиннее 370 символов")
     @Column(name = "name_on_card")
     private String nameOnCard;
 
@@ -36,10 +50,12 @@ public class Profile extends BaseEntity {
     @Cascade(org.hibernate.annotations.CascadeType.DELETE)
     private List<AccountDetailsId> accounts;
 
+    @NotEmpty(message = "Паспорт не может быть пустым")
     @OneToOne
     @JoinColumn(name = "passport_id", referencedColumnName = "id")
     private Passport passport;
 
+    @NotEmpty(message = "Актуальная регистрация не может быть пустой")
     @OneToOne
     @JoinColumn(name = "actual_registration_id", referencedColumnName = "id")
     private ActualRegistration actualRegistration;
