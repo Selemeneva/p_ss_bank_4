@@ -2,6 +2,8 @@ package com.bank.profile.service;
 
 import com.bank.profile.entity.Profile;
 import com.bank.profile.repository.ProfileRepository;
+import com.bank.profile.util.EntityJsonBeforeUpdateSaver;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,7 +25,13 @@ public class ProfileServiceImpl implements ProfileService {
     }
 
     @Override
-    public void update(Profile profile) {
+    public void update(Profile profile) throws JsonProcessingException {
+        Profile unupdatedProfile = findById(profile.getId());
+
+        profile.setCreatedBy(unupdatedProfile.getCreatedBy());
+        profile.setCreatedAt(unupdatedProfile.getCreatedAt());
+        EntityJsonBeforeUpdateSaver.saveEntityJsonBeforeUpdate(unupdatedProfile);
+
         profileRepository.save(profile);
     }
 

@@ -2,6 +2,8 @@ package com.bank.profile.service;
 
 import com.bank.profile.entity.AccountDetailsId;
 import com.bank.profile.repository.AccountDetailsIdRepository;
+import com.bank.profile.util.EntityJsonBeforeUpdateSaver;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -37,7 +39,13 @@ public class AccountDetailsIdServiceImpl implements AccountDetailsIdService {
     }
 
     @Override
-    public void update(AccountDetailsId accountDetailsId) {
+    public void update(AccountDetailsId accountDetailsId) throws JsonProcessingException {
+        AccountDetailsId unupdatedAccountDetailsId = findById(accountDetailsId.getId());
+
+        accountDetailsId.setCreatedBy(unupdatedAccountDetailsId.getCreatedBy());
+        accountDetailsId.setCreatedAt(unupdatedAccountDetailsId.getCreatedAt());
+        EntityJsonBeforeUpdateSaver.saveEntityJsonBeforeUpdate(unupdatedAccountDetailsId);
+
         accountDetailsIdRepository.save(accountDetailsId);
     }
 

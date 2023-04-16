@@ -1,7 +1,6 @@
-package com.bank.profile.configuration;
+package com.bank.profile.serializer;
 
 import com.bank.profile.entity.AccountDetailsId;
-import com.bank.profile.entity.Passport;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.ser.std.StdSerializer;

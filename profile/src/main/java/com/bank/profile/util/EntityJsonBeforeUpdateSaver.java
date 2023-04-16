@@ -4,7 +4,7 @@ import com.bank.profile.entity.BaseEntity;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-public class Updater {
+public class EntityJsonBeforeUpdateSaver {
     private static final ObjectMapper objectMapper = new ObjectMapper();
     private static String entityJson;
 
@@ -12,13 +12,7 @@ public class Updater {
         return entityJson;
     }
 
-    public static void setEntityJson(String entityJson) {
-        Updater.entityJson = entityJson;
-    }
-
-    public static void updateInformationAboutCreating(BaseEntity entity, BaseEntity unupdatedEntity) throws JsonProcessingException {
-        entity.setCreatedBy(unupdatedEntity.getCreatedBy());
-        entity.setCreatedAt(unupdatedEntity.getCreatedAt());
+    public static void saveEntityJsonBeforeUpdate(BaseEntity unupdatedEntity) throws JsonProcessingException {
         entityJson = objectMapper.writeValueAsString(unupdatedEntity);
     }
 }

@@ -2,7 +2,7 @@ package com.bank.profile.audit;
 
 import com.bank.profile.entity.*;
 import com.bank.profile.repository.AuditRepository;
-import com.bank.profile.util.Updater;
+import com.bank.profile.util.EntityJsonBeforeUpdateSaver;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.BeanFactory;
@@ -87,7 +87,7 @@ public class AuditListener {
     public void postUpdate(BaseEntity entity) throws JsonProcessingException {
         AuditRepository auditRepository = beanFactory.getBean(AuditRepository.class);
         String newJson = objectMapper.writeValueAsString(entity);
-        String entityJson = Updater.getEntityJson();
+        String entityJson = EntityJsonBeforeUpdateSaver.getEntityJson();
 
         Audit audit = Audit.builder()
                 .entityType(entity.getClass().getSimpleName())
@@ -101,7 +101,6 @@ public class AuditListener {
                 .build();
 
         auditRepository.save(audit);
-        Updater.setEntityJson(null);
     }
 
     /**
@@ -126,6 +125,5 @@ public class AuditListener {
                 .build();
 
         auditRepository.save(audit);
-        Updater.setEntityJson(null);
     }
 }

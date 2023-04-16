@@ -1,6 +1,5 @@
 package com.bank.profile.util;
 
-import com.bank.profile.dto.ProfileDto;
 import com.bank.profile.entity.*;
 import com.bank.profile.mapper.*;
 import com.bank.profile.service.*;
@@ -8,9 +7,7 @@ import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.util.Locale;
 
 @Component
 public class Init {
@@ -44,9 +41,9 @@ public class Init {
         registration.setDistrict("Ololo");
         registration.setLocality("Ololo");
         registration.setStreet("Street");
-        registration.setHouseNumber("123");
-        registration.setHouseBlock("5");
-        registration.setFlatNumber("123");
+        registration.setHouseNumber(123);
+        registration.setHouseBlock(5);
+        registration.setFlatNumber(123);
         registration.setIndex(12345L);
         registration.setColumns(12);
         registrationService.save(registration);

@@ -1,11 +1,11 @@
 package com.bank.profile.service;
 
-import com.bank.profile.dto.PassportDto;
 import com.bank.profile.entity.Passport;
-import com.bank.profile.entity.Registration;
 import com.bank.profile.mapper.PassportMapper;
 import com.bank.profile.mapper.RegistrationMapper;
 import com.bank.profile.repository.PassportRepository;
+import com.bank.profile.util.EntityJsonBeforeUpdateSaver;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -41,7 +41,13 @@ public class PassportServiceImpl implements PassportService {
     }
 
     @Override
-    public void update(Passport passport) {
+    public void update(Passport passport) throws JsonProcessingException {
+        Passport unupdatedPassport = findById(passport.getId());
+
+        passport.setCreatedBy(unupdatedPassport.getCreatedBy());
+        passport.setCreatedAt(unupdatedPassport.getCreatedAt());
+        EntityJsonBeforeUpdateSaver.saveEntityJsonBeforeUpdate(unupdatedPassport);
+
         passportRepository.save(passport);
     }
 

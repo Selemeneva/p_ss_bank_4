@@ -6,7 +6,6 @@ import com.bank.profile.mapper.PassportMapper;
 import com.bank.profile.mapper.RegistrationMapper;
 import com.bank.profile.service.PassportService;
 import com.bank.profile.service.RegistrationService;
-import com.bank.profile.util.Updater;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -86,10 +85,7 @@ public class PassportController {
             throw new EntityNotFoundException("Вы пытаетесь создать паспорт с не существующей регистрацией");
         }
 
-        Passport unupdatedPassport = passportService.findById(id);
         Passport passport = passportMapper.toEntity(passportDto, registrationService);
-
-        Updater.updateInformationAboutCreating(passport, unupdatedPassport);
         passportService.update(passport);
 
         return ResponseEntity.ok(passport);

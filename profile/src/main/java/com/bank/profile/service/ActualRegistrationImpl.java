@@ -4,6 +4,8 @@ import com.bank.profile.dto.ActualRegistrationDto;
 import com.bank.profile.entity.ActualRegistration;
 import com.bank.profile.mapper.ActualRegistrationMapper;
 import com.bank.profile.repository.ActualRegistrationRepository;
+import com.bank.profile.util.EntityJsonBeforeUpdateSaver;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -36,7 +38,13 @@ public class ActualRegistrationImpl implements ActualRegistrationService {
     }
 
     @Override
-    public void update(ActualRegistration actualRegistration) {
+    public void update(ActualRegistration actualRegistration) throws JsonProcessingException {
+        ActualRegistration unupdatedActualRegistration = findById(actualRegistration.getId());
+
+        actualRegistration.setCreatedBy(unupdatedActualRegistration.getCreatedBy());
+        actualRegistration.setCreatedAt(unupdatedActualRegistration.getCreatedAt());
+        EntityJsonBeforeUpdateSaver.saveEntityJsonBeforeUpdate(unupdatedActualRegistration);
+
         actualRegistrationRepository.save(actualRegistration);
     }
 

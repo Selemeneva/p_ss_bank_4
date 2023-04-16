@@ -1,10 +1,6 @@
 package com.bank.profile.entity;
 
-import com.bank.profile.audit.AuditListener;
-import com.bank.profile.configuration.PassportSerializer;
-import com.fasterxml.jackson.annotation.JsonAutoDetect;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.bank.profile.serializer.PassportSerializer;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -12,7 +8,6 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.util.Date;
 
 @Entity
 @Data

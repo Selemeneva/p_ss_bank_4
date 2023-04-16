@@ -4,7 +4,6 @@ import com.bank.profile.dto.ActualRegistrationDto;
 import com.bank.profile.entity.ActualRegistration;
 import com.bank.profile.mapper.ActualRegistrationMapper;
 import com.bank.profile.service.ActualRegistrationService;
-import com.bank.profile.util.Updater;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -65,10 +64,8 @@ public class ActualRegistrationController {
         if (!actualRegistrationService.existById(id)) {
             throw new EntityNotFoundException("Регистрации с таким id не существует");
         }
-        ActualRegistration unupdatedActualRegistration = actualRegistrationService.findById(id);
-        ActualRegistration actualRegistration = actualRegistrationMapper.toEntity(actualRegistrationDto);
 
-        Updater.updateInformationAboutCreating(actualRegistration, unupdatedActualRegistration);
+        ActualRegistration actualRegistration = actualRegistrationMapper.toEntity(actualRegistrationDto);
         actualRegistrationService.update(actualRegistration);
 
         return ResponseEntity.ok(actualRegistration);

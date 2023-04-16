@@ -5,7 +5,6 @@ import com.bank.profile.entity.AccountDetailsId;
 import com.bank.profile.mapper.AccountDetailsIdMapper;
 import com.bank.profile.service.AccountDetailsIdService;
 import com.bank.profile.service.ProfileService;
-import com.bank.profile.util.Updater;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -77,10 +76,7 @@ public class AccountDetailsIdController {
             throw new EntityNotFoundException("Профиля с таким id не существует");
         }
 
-        AccountDetailsId unupdatedAccountDetailsId = accountDetailsIdService.findById(id);
         AccountDetailsId accountDetailsId = accountDetailsIdMapper.toEntity(accountDetailsIdDto, profileService);
-
-        Updater.updateInformationAboutCreating(accountDetailsId, unupdatedAccountDetailsId);
         accountDetailsIdService.update(accountDetailsId);
 
         return ResponseEntity.ok(accountDetailsId);

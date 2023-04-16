@@ -4,7 +4,6 @@ import com.bank.profile.dto.RegistrationDto;
 import com.bank.profile.entity.Registration;
 import com.bank.profile.mapper.RegistrationMapper;
 import com.bank.profile.service.RegistrationService;
-import com.bank.profile.util.Updater;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -70,10 +69,7 @@ public class RegistrationController {
             throw new EntityNotFoundException("Регистрации с таким id не существует");
         }
 
-        Registration unupdatedRegistration = registrationService.findById(id);
         Registration registration = registrationMapper.toEntity(registrationDto);
-
-        Updater.updateInformationAboutCreating(registration, unupdatedRegistration);
         registrationService.update(registration);
 
         return ResponseEntity.ok(registration);

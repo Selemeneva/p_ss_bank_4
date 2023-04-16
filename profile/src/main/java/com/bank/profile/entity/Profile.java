@@ -1,6 +1,6 @@
 package com.bank.profile.entity;
 
-import com.bank.profile.configuration.ProfileSerializer;
+import com.bank.profile.serializer.ProfileSerializer;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

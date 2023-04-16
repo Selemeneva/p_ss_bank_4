@@ -1,11 +1,6 @@
 package com.bank.profile.entity;
 
-import com.bank.profile.audit.AuditListener;
-import com.bank.profile.configuration.AccountDetailsIdSerializer;
-import com.bank.profile.configuration.PassportSerializer;
-import com.fasterxml.jackson.annotation.JsonAutoDetect;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.bank.profile.serializer.AccountDetailsIdSerializer;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.*;
 

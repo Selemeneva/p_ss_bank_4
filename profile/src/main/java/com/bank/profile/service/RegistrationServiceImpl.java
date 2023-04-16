@@ -2,6 +2,8 @@ package com.bank.profile.service;
 
 import com.bank.profile.entity.Registration;
 import com.bank.profile.repository.RegistrationRepository;
+import com.bank.profile.util.EntityJsonBeforeUpdateSaver;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -37,7 +39,15 @@ public class RegistrationServiceImpl implements RegistrationService{
     }
 
     @Override
-    public void update(Registration registration) { registrationRepository.save(registration); }
+    public void update(Registration registration) throws JsonProcessingException {
+        Registration unupdatedRegistration = findById(registration.getId());
+
+        registration.setCreatedBy(unupdatedRegistration.getCreatedBy());
+        registration.setCreatedAt(unupdatedRegistration.getCreatedAt());
+        EntityJsonBeforeUpdateSaver.saveEntityJsonBeforeUpdate(unupdatedRegistration);
+
+        registrationRepository.save(registration);
+    }
 
     @Override
     public boolean existById(Long id) {

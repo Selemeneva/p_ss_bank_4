@@ -1,4 +1,4 @@
-package com.bank.profile.configuration;
+package com.bank.profile.serializer;
 
 import com.bank.profile.entity.Profile;
 import com.fasterxml.jackson.core.JsonGenerator;
