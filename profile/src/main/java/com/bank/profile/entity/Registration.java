@@ -2,6 +2,7 @@ package com.bank.profile.entity;
 
 import com.bank.profile.serializer.RegistrationSerializer;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 
 import javax.persistence.*;

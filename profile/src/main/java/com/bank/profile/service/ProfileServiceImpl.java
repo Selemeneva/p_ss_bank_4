@@ -54,9 +54,7 @@ public class ProfileServiceImpl implements ProfileService {
     @Transactional
     @Override
     public void deleteById(Long id) {
-        Profile profile = findById(id);
-        profileRepository.delete(profile);
-        System.out.println("Я отработал");
+        profileRepository.delete(findById(id));
     }
 
     @Transactional

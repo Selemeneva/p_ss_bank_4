@@ -5,6 +5,8 @@ import com.bank.profile.entity.ActualRegistration;
 import com.bank.profile.mapper.ActualRegistrationMapper;
 import com.bank.profile.service.ActualRegistrationService;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
@@ -14,6 +16,7 @@ import javax.persistence.EntityNotFoundException;
 import java.util.List;
 
 @RestController
+@Tag(name = "Актуальные регистрации", description = "получаем и редактируем данные по записям актуальной регистрации")
 @RequestMapping("/actual_registration/")
 public class ActualRegistrationController {
     private final ActualRegistrationService actualRegistrationService;
@@ -26,6 +29,10 @@ public class ActualRegistrationController {
     }
 
     @GetMapping("list")
+    @Operation(
+            summary = "Получение списка записей актуальной регистрации",
+            description = "Позволяет вывести полный список записей актуальной регистрации"
+    )
     public ResponseEntity<List<ActualRegistration>> getAllActualRegistrations() {
         logger.info("Запрос списка всех актуальных регистраций");
 
@@ -35,6 +42,11 @@ public class ActualRegistrationController {
     }
 
     @PostMapping("create")
+    @Operation(
+            summary = "Создание новой записи актуальной регистрации",
+            description = "Позволяет создать новую запись актуальной регистрации. actualRegistrationDto.id будет " +
+                    "присвоено значение null и установлено автоматически по порядку"
+    )
     public ResponseEntity<ActualRegistration> createActualRegistration(@RequestBody ActualRegistrationDto actualRegistrationDto){
         logger.info("Создание новой актуальной регистрации");
 
@@ -45,6 +57,10 @@ public class ActualRegistrationController {
     }
 
     @GetMapping("{id}")
+    @Operation(
+            summary = "Получение записи актуальной регистрации",
+            description = "Позволяет вывести полный список записей актуальной регистрации по id"
+    )
     public ResponseEntity<ActualRegistration> getActualRegistrationById(@PathVariable long id) {
         logger.info("Запрос актуальной регистрации с id {}", id);
 
@@ -56,6 +72,10 @@ public class ActualRegistrationController {
     }
 
     @PatchMapping("update")
+    @Operation(
+            summary = "Обновление записи актуальной регистрации",
+            description = "Позволяет обновить запись актуальной регистрации, id редактируемой записи берётся из actualRegistrationDto"
+    )
     public ResponseEntity<ActualRegistration> updateActualRegistrationById(@RequestBody ActualRegistrationDto actualRegistrationDto) throws JsonProcessingException {
         Long id = actualRegistrationDto.getId();
 
@@ -72,6 +92,10 @@ public class ActualRegistrationController {
     }
 
     @DeleteMapping("delete/{id}")
+    @Operation(
+            summary = "Удаление записи актуальной регистрации",
+            description = "Позволяет удалить запись актуальной регистрации по id"
+    )
     public ResponseEntity<ActualRegistration> deleteUser(@PathVariable Long id) {
         logger.info("Запрос на удаление актуальной регистрации с id {}", id);
 

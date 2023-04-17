@@ -7,6 +7,8 @@ import com.bank.profile.service.ActualRegistrationService;
 import com.bank.profile.service.PassportService;
 import com.bank.profile.service.ProfileService;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +18,7 @@ import javax.persistence.EntityNotFoundException;
 import java.util.List;
 
 @RestController
+@Tag(name = "Профили", description = "получаем и редактируем данные по записям профилей")
 @RequestMapping("/profile/")
 public class ProfileController {
 
@@ -34,6 +37,10 @@ public class ProfileController {
 
 
     @GetMapping("list")
+    @Operation(
+            summary = "Получение списка записей профилей",
+            description = "Позволяет вывести полный список записей профилей"
+    )
     public ResponseEntity<List<Profile>> getAllProfiles() {
         logger.info("Запрос списка всех профилей");
 
@@ -42,6 +49,10 @@ public class ProfileController {
     }
 
     @GetMapping("{id}")
+    @Operation(
+            summary = "Получение записи профиля по id",
+            description = "Позволяет вывести запись профиля по id"
+    )
     public ResponseEntity<Profile> getProfile(@PathVariable Long id) {
         logger.info("Запрос паспорта с id {}", id);
 
@@ -54,6 +65,10 @@ public class ProfileController {
     }
 
     @PostMapping("create")
+    @Operation(
+            summary = "Создание записи профиля",
+            description = "Позволяет создать запись профиля. profileDto.id будет присвоено значение null и установлено автоматически по порядку"
+    )
     public ResponseEntity<Profile> createProfile(@RequestBody ProfileDto profileDto) {
         logger.info("Запрос на создание профиля");
 
@@ -74,6 +89,10 @@ public class ProfileController {
     }
 
     @PatchMapping("update")
+    @Operation(
+            summary = "Обновление записи профиля",
+            description = "Позволяет обновить запись профиля, id редактируемой записи берётся из profileDto"
+    )
     public ResponseEntity<Profile> updateProfile(@RequestBody ProfileDto profileDto) throws JsonProcessingException {
         Long id = profileDto.getId();
         Long actualRegistrationId = profileDto.getActualRegistrationId();
@@ -100,6 +119,10 @@ public class ProfileController {
     }
 
     @DeleteMapping("delete/{id}")
+    @Operation(
+            summary = "Удаление записи профиля по id",
+            description = "Позволяет удалить запись профиля по id"
+    )
     public ResponseEntity<Profile> deleteProfile(@PathVariable Long id) {
         logger.info("Запрос на удаление профиля с id {}", id);
 

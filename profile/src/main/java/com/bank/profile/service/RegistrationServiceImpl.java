@@ -37,8 +37,8 @@ public class RegistrationServiceImpl implements RegistrationService{
 
     @Transactional
     @Override
-    public void delete(Registration registration) {
-        registrationRepository.delete(registration);
+    public void delete(Long id) {
+        registrationRepository.delete(findById(id));
     }
 
     @Transactional

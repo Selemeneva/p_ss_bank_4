@@ -6,6 +6,8 @@ import com.bank.profile.mapper.AccountDetailsIdMapper;
 import com.bank.profile.service.AccountDetailsIdService;
 import com.bank.profile.service.ProfileService;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +17,7 @@ import javax.persistence.EntityNotFoundException;
 import java.util.List;
 
 @RestController
+@Tag(name = "Счета", description = "получаем и редактируем данные по записям счетов")
 @RequestMapping("/account_details_id/")
 public class AccountDetailsIdController {
     private final AccountDetailsIdService accountDetailsIdService;
@@ -29,6 +32,10 @@ public class AccountDetailsIdController {
     }
 
     @GetMapping("list")
+    @Operation(
+            summary = "Получение списка записей счетов",
+            description = "Позволяет вывести полный список записей счетов"
+    )
     public ResponseEntity<List<AccountDetailsId>> getAllAccountDetailsId() {
         logger.info("Запрос списка всех счетов");
         List<AccountDetailsId> accountDetailsIdList = accountDetailsIdService.findAll();
@@ -36,6 +43,10 @@ public class AccountDetailsIdController {
     }
 
     @GetMapping("{id}")
+    @Operation(
+            summary = "Получение записи счёта по id",
+            description = "Позволяет вывести запись счёта по id"
+    )
     public ResponseEntity<AccountDetailsId> getAccountDetailsIdById(@PathVariable Long id) {
         logger.info("Запрос счёта с id {}", id);
 
@@ -49,6 +60,10 @@ public class AccountDetailsIdController {
     }
 
     @PostMapping("create")
+    @Operation(
+            summary = "Создание записи счёта",
+            description = "Позволяет создать запись счёта. accountDetailsIdDto.id будет присвоено значение null и установлено автоматически по порядку"
+    )
     public ResponseEntity<AccountDetailsId> createAccountDetailsId(@RequestBody AccountDetailsIdDto accountDetailsIdDto) {
         logger.info("Запрос на создание нового счёта");
         Long profileId = accountDetailsIdDto.getProfileId();
@@ -64,6 +79,10 @@ public class AccountDetailsIdController {
     }
 
     @PatchMapping("update")
+    @Operation(
+            summary = "Обновление записи счёта",
+            description = "Позволяет обновить запись счёта, id редактируемой записи берётся из accountDetailsIdDto"
+    )
     public ResponseEntity<AccountDetailsId> updateAccountDetailsId(@RequestBody AccountDetailsIdDto accountDetailsIdDto) throws JsonProcessingException {
         logger.info("Запрос на обновление счёта");
         Long profileId = accountDetailsIdDto.getProfileId();
@@ -83,6 +102,10 @@ public class AccountDetailsIdController {
     }
 
     @DeleteMapping("delete/{id}")
+    @Operation(
+            summary = "Удаление записи счёта по id",
+            description = "Позволяет удалить запись счёта по id"
+    )
     public ResponseEntity<AccountDetailsId> deleteAccountDetailsIdById(@PathVariable Long id) {
         logger.info("Запрос на удаление счёта с id {}", id);
 
