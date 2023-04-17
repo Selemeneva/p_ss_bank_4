@@ -10,5 +10,6 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public interface AccountDetailsRepository extends JpaRepository<AccountDetails,Long> {
+    AccountDetails findAllById(Long id);
 
 }

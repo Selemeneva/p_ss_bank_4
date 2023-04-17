@@ -1,5 +1,6 @@
 package com.bank.account.Service;
 
+import com.bank.account.Audit.AuditListener;
 import com.bank.account.Entity.AccountDetails;
 import com.bank.account.Entity.Dto.AccountDetailsDto;
 import com.bank.account.Mapper.AccountDetailsMapper;
@@ -27,7 +28,7 @@ import java.util.stream.Collectors;
 @Transactional
 @AllArgsConstructor
 public class AccountDetailsServiceImpl implements AccountDetailsService {
-
+    private AuditListener auditListener;
     private final AccountDetailsRepository accountDetailsRepository;
 
     @Override
@@ -47,8 +48,11 @@ public class AccountDetailsServiceImpl implements AccountDetailsService {
 
     @Override
     public void updateAccount(AccountDetailsDto accountDetailsDto) {
+
         AccountDetails accountDetailsExisting = accountDetailsRepository.findById(accountDetailsDto.getId())
                 .orElseThrow(() -> new NotFoundException("Аккаунт с ID " + accountDetailsDto.getId() + " не найден"));
+        auditListener.setCurrentAccountDetails(AccountDetailsMapper.INSTANCE.toDto(accountDetailsRepository
+                .findAllById(accountDetailsDto.getId())));
         AccountDetails accountDetails = AccountDetailsMapper.INSTANCE.toEntity(accountDetailsDto);
         accountDetailsRepository.save(accountDetails);
 
