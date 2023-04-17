@@ -1,6 +1,7 @@
 package com.bank.account.Service;
 
 import com.bank.account.Entity.AccountDetails;
+import com.bank.account.Entity.Dto.AccountDetailsDto;
 import org.springframework.stereotype.Service;
 
 import java.util.Set;
@@ -13,15 +14,15 @@ import java.util.Set;
 @Service
 public interface AccountDetailsService {
 
-    AccountDetails findById(Long id);//Поиск объекта по номеру счета
+    AccountDetailsDto findById(Long id);//Поиск объекта по номеру счета
 
-    void createAccount(AccountDetails accountDetails);//создание нового объекта AccountDetails в БД
+    void createAccount(AccountDetailsDto accountDetailsDto);//создание нового объекта AccountDetails в БД
 
-    void updateAccount(AccountDetails accountDetails);//обновление объекта AccountDetails в БД
+    void updateAccount(AccountDetailsDto accountDetailsDto);//обновление объекта AccountDetails в БД
 
     void deleteAccountById(Long id);// удаление объекта AccountDetails по Id из БД
 
-    Set<AccountDetails> getAllAccounts();//получение списка всех объектов AccountDetails из БД
+    Set<AccountDetailsDto> getAllAccounts();//получение списка всех объектов AccountDetails из БД
 
 
 }

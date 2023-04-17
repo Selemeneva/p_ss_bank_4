@@ -1,9 +1,7 @@
 package com.bank.account.Controller;
 
-import com.bank.account.Entity.AccountDetails;
 import com.bank.account.Entity.Dto.AccountDetailsDto;
 import com.bank.account.Service.AccountDetailsService;
-import com.bank.account.Mapper.AccountDetailsMapper;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,7 +12,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 /**
  * Контроллер для работы с сущностями AccountDetails через API REST.
@@ -24,7 +21,6 @@ import java.util.stream.Collectors;
 public class AccountDetailsControllerImpl implements AccountDetailsController {
 
     private final AccountDetailsService accountDetailsService;
-    private final AccountDetailsMapper accountDetailsMapper;
 
     private static final Logger logger = LoggerFactory.getLogger(AccountDetailsControllerImpl.class);
 
@@ -32,12 +28,10 @@ public class AccountDetailsControllerImpl implements AccountDetailsController {
      * Создает новый экземпляр контроллера для работы с сущностями AccountDetails через API REST.
      *
      * @param accountDetailsService объект сервиса для работы с сущностями AccountDetails
-     * @param accountDetailsMapper  объект модуля конвертирования сущностей AccountDetails и AccountDetailsDto
      */
     @Autowired
-    public AccountDetailsControllerImpl(AccountDetailsService accountDetailsService, AccountDetailsMapper accountDetailsMapper) {
+    public AccountDetailsControllerImpl(AccountDetailsService accountDetailsService) {
         this.accountDetailsService = accountDetailsService;
-        this.accountDetailsMapper = accountDetailsMapper;
     }
 
     /**
@@ -49,13 +43,13 @@ public class AccountDetailsControllerImpl implements AccountDetailsController {
     @Override
     public AccountDetailsDto getAccountDetailsById(Long id) {
         logger.info("Запрос информации о счете с номером: " + id);
-        AccountDetails accountDetails = accountDetailsService.findById(id);
-        if (accountDetails == null) {
+        AccountDetailsDto accountDetailsDto = accountDetailsService.findById(id);
+        if (accountDetailsDto == null) {
             String message = String.format("Аккаунт с id %s не существует", id);
             logger.error(message);
             throw new EntityNotFoundException(message);
         }
-        return accountDetailsMapper.convertToDto(accountDetails);
+        return accountDetailsDto;
     }
 
     /**
@@ -66,8 +60,7 @@ public class AccountDetailsControllerImpl implements AccountDetailsController {
     @Override
     public void createAccount(AccountDetailsDto accountDetailsDto) {
         logger.info("Создание нового счета");
-        AccountDetails accountDetails = accountDetailsMapper.convertToEntity(accountDetailsDto);
-        accountDetailsService.createAccount(accountDetails);
+        accountDetailsService.createAccount(accountDetailsDto);
     }
 
     /**
@@ -78,9 +71,8 @@ public class AccountDetailsControllerImpl implements AccountDetailsController {
     @Override
     public void updateAccount(Long id, @RequestBody AccountDetailsDto accountDetailsDto) {
         logger.info("Обновление счета с id: " + id);
-        AccountDetails accountDetails = accountDetailsMapper.convertToEntity(accountDetailsDto);
-        accountDetails.setId(id);
-        accountDetailsService.updateAccount(accountDetails);
+        accountDetailsDto.setId(id);
+        accountDetailsService.updateAccount(accountDetailsDto);
     }
 
     /**
@@ -102,9 +94,6 @@ public class AccountDetailsControllerImpl implements AccountDetailsController {
     @Override
     public Set<AccountDetailsDto> getAllAccounts() {
         logger.info("Запрос всех счетов");
-        Set<AccountDetails> accountDetails = accountDetailsService.getAllAccounts();
-        return accountDetails.stream()
-                .map(accountDetailsMapper::convertToDto)
-                .collect(Collectors.toSet());
+        return accountDetailsService.getAllAccounts();
     }
 }

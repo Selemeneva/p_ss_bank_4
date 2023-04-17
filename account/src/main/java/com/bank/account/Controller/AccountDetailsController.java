@@ -21,7 +21,6 @@ public interface AccountDetailsController {
      * Получает информацию о счете по его номеру.
      * @param id клиента
      * @return DTO AccountDetailsDto
-     * @return Successful get (code 200),
      */
 
     @Operation(summary ="Получает информацию о счете по его номеру")
@@ -33,7 +32,7 @@ public interface AccountDetailsController {
             @ApiResponse(responseCode = "500", description = "Внутренняя ошибка сервера. Обратитесь в техническую поддержку")
     })
     @GetMapping("/{id}")
-    public AccountDetailsDto getAccountDetailsById(@ApiParam(value = "ID счета", required = true) @PathVariable Long id);
+    AccountDetailsDto getAccountDetailsById(@ApiParam(value = "ID счета", required = true) @PathVariable Long id);
 
     /**
      * Создает новый счет.

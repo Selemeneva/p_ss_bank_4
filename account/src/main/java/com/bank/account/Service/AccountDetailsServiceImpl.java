@@ -1,15 +1,18 @@
 package com.bank.account.Service;
 
 import com.bank.account.Entity.AccountDetails;
+import com.bank.account.Entity.Dto.AccountDetailsDto;
+import com.bank.account.Mapper.AccountDetailsMapper;
 import com.bank.account.Repository.AccountDetailsRepository;
 import lombok.AllArgsConstructor;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.webjars.NotFoundException;
 
 import javax.persistence.EntityNotFoundException;
-import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * Класс AccountDetailsServiceImpl представляет реализацию интерфейса AccountDetailsService,
@@ -29,31 +32,26 @@ public class AccountDetailsServiceImpl implements AccountDetailsService {
 
     @Override
     @Transactional(readOnly = true)
-    public AccountDetails findById(Long id) {
-        return accountDetailsRepository.findById(id)
+    public AccountDetailsDto findById(Long id) {
+        AccountDetails accountDetails = accountDetailsRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Номер счета " + id + " не найден"));
+        return AccountDetailsMapper.INSTANCE.toDto(accountDetails);
+
     }
 
     @Override
-    public void createAccount(AccountDetails accountDetails) {
+    public void createAccount(AccountDetailsDto accountDetailsDto) {
+        AccountDetails accountDetails = AccountDetailsMapper.INSTANCE.toEntity(accountDetailsDto);
         accountDetailsRepository.save(accountDetails);
     }
 
     @Override
-    public void updateAccount(AccountDetails accountDetails) {
-        AccountDetails accountDetailsExisting = accountDetailsRepository.getById(accountDetails.getId());
-        if (accountDetailsExisting != null) {
-            accountDetailsExisting.setPassportId(accountDetails.getPassportId());
-            accountDetailsExisting.setAccountNumber(accountDetails.getAccountNumber());
-            accountDetailsExisting.setBankDetailsId(accountDetails.getBankDetailsId());
-            accountDetailsExisting.setMoney(accountDetails.getMoney());
-            accountDetailsExisting.setNegativeBalance(accountDetails.getNegativeBalance());
-            accountDetailsExisting.setProfileId(accountDetails.getProfileId());
+    public void updateAccount(AccountDetailsDto accountDetailsDto) {
+        AccountDetails accountDetailsExisting = accountDetailsRepository.findById(accountDetailsDto.getId())
+                .orElseThrow(() -> new NotFoundException("Аккаунт с ID " + accountDetailsDto.getId() + " не найден"));
+        AccountDetails accountDetails = AccountDetailsMapper.INSTANCE.toEntity(accountDetailsDto);
+        accountDetailsRepository.save(accountDetails);
 
-            accountDetailsRepository.saveAndFlush(accountDetailsExisting);
-        } else {
-            throw new RuntimeException("Account not found with id " + accountDetails.getId());
-        }
     }
 
     @Override
@@ -63,8 +61,10 @@ public class AccountDetailsServiceImpl implements AccountDetailsService {
 
     @Override
     @Transactional(readOnly = true)
-    public Set<AccountDetails> getAllAccounts() {
-        return new HashSet<>(accountDetailsRepository.findAll());
+    public Set<AccountDetailsDto> getAllAccounts() {
+        return accountDetailsRepository.findAll().stream()
+                .map(AccountDetailsMapper.INSTANCE::toDto)
+                .collect(Collectors.toSet());
     }
 
 
