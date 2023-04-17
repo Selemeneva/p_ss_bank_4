@@ -18,8 +18,9 @@ public class ActualRegistrationSerializer extends StdSerializer<ActualRegistrati
 
     @Override
     public void serialize(ActualRegistration actualRegistration, JsonGenerator jsonGenerator, SerializerProvider serializerProvider) throws IOException {
-        jsonGenerator.writeStartObject();
+        Long profileId;
 
+        jsonGenerator.writeStartObject();
         jsonGenerator.writeStringField("id", String.valueOf(actualRegistration.getId()));
         jsonGenerator.writeStringField("country", actualRegistration.getCountry());
         jsonGenerator.writeStringField("region", actualRegistration.getRegion());
@@ -32,6 +33,13 @@ public class ActualRegistrationSerializer extends StdSerializer<ActualRegistrati
         jsonGenerator.writeStringField("flatNumber", String.valueOf(actualRegistration.getFlatNumber()));
         jsonGenerator.writeStringField("index", String.valueOf(actualRegistration.getIndex()));
 
+        if (actualRegistration.getProfile() != null) {
+            profileId = actualRegistration.getProfile().getId();
+        } else {
+            profileId = null;
+        }
+
+        jsonGenerator.writeStringField("profileId", String.valueOf(profileId));
         jsonGenerator.writeEndObject();
     }
 

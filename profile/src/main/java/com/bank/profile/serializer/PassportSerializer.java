@@ -18,6 +18,8 @@ public class PassportSerializer extends StdSerializer<Passport> {
 
     @Override
     public void serialize(Passport passport, JsonGenerator jsonGenerator, SerializerProvider serializerProvider) throws IOException {
+        Long profileId;
+
         jsonGenerator.writeStartObject();
         jsonGenerator.writeStringField("id", String.valueOf(passport.getId()));
         jsonGenerator.writeNumberField("series", passport.getSeries());
@@ -33,6 +35,14 @@ public class PassportSerializer extends StdSerializer<Passport> {
         jsonGenerator.writeNumberField("divisionCode", passport.getDivisionCode());
         jsonGenerator.writeStringField("expirationDate", passport.getExpirationDate().toString());
         jsonGenerator.writeStringField("registrationId", passport.getRegistration().getId().toString());
+
+        if (passport.getProfile() != null) {
+            profileId = passport.getProfile().getId();
+        } else {
+            profileId = null;
+        }
+
+        jsonGenerator.writeStringField("profileId", String.valueOf(profileId));
         jsonGenerator.writeEndObject();
     }
 }

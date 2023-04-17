@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.ser.std.StdSerializer;
 
 import java.io.IOException;
+
 public class RegistrationSerializer extends StdSerializer<Registration> {
 
     public RegistrationSerializer() {
@@ -18,6 +19,7 @@ public class RegistrationSerializer extends StdSerializer<Registration> {
 
     @Override
     public void serialize(Registration registration, JsonGenerator jsonGenerator, SerializerProvider serializerProvider) throws IOException {
+        Long passportId;
         jsonGenerator.writeStartObject();
 
         jsonGenerator.writeStringField("id", String.valueOf(registration.getId()));
@@ -33,6 +35,13 @@ public class RegistrationSerializer extends StdSerializer<Registration> {
         jsonGenerator.writeStringField("index", String.valueOf(registration.getIndex()));
         jsonGenerator.writeStringField("columns", String.valueOf(registration.getColumns()));
 
+        if (registration.getPassport() != null) {
+            passportId = registration.getPassport().getId();
+        } else {
+            passportId = null;
+        }
+
+        jsonGenerator.writeStringField("passportId", String.valueOf(passportId));
         jsonGenerator.writeEndObject();
     }
 }

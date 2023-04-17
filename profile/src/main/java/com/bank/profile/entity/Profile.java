@@ -18,7 +18,7 @@ import java.util.List;
  *Класс Profile представляет собой информацию о банковском профиле,
  * которая сохраняется в таблице profile.
  * Passport связан отношением One-to-one с сущностями Passport и ActualRegistration, a также
- * One-to-many с сущностью AccountDetailsId, поле accounts может быть пустым. При удалении экземпляра
+ * One-to-many с сущностью AccountDetailsId, поля  actualRegistration и accounts могут быть пустыми. При удалении экземпляра
  * Profile каскадно удаляются связанные с ним экземпляры AccountDetailsId.
  * Для сериализации спользуется ProfileSerializer
  */

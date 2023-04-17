@@ -72,29 +72,19 @@ public class Init {
         Profile profile = new Profile();
         profile.setPhoneNumber(1243455L);
         profile.setPassport(passport);
-        profile.setActualRegistration(actualRegistration);
+//        profile.setActualRegistration(actualRegistration);
         profileService.save(profile);
 
-        AccountDetailsId accountDetailsId1 = new AccountDetailsId();
-        accountDetailsId1.setOwner(profile);
-        accountDetailsId1.setAccountId(123456L);
-        accountDetailsId1.setOwner(profile);
-        accountDetailsIdService.save(accountDetailsId1);
+//        AccountDetailsId accountDetailsId1 = new AccountDetailsId();
+//        accountDetailsId1.setOwner(profile);
+//        accountDetailsId1.setAccountId(123456L);
+//        accountDetailsId1.setOwner(profile);
+//        accountDetailsIdService.save(accountDetailsId1);
+//
+//        AccountDetailsId accountDetailsId2 = new AccountDetailsId();
+//        accountDetailsId2.setOwner(profile);
+//        accountDetailsId2.setAccountId(123456789L);
+//        accountDetailsIdService.save(accountDetailsId2);
 
-        AccountDetailsId accountDetailsId2 = new AccountDetailsId();
-        accountDetailsId2.setOwner(profile);
-        accountDetailsId2.setAccountId(123456789L);
-        accountDetailsIdService.save(accountDetailsId2);
-
-//        Audit audit = new Audit();
-//        audit.setEntityType("profile");
-//        audit.setOperationType("create");
-//        audit.setCreatedBy("admin");
-//        audit.setModifiedBy("admin");
-//        audit.setCreatedAt(OffsetDateTime.now());
-//        audit.setModifieddAt(OffsetDateTime.now());
-//        audit.setNewEntityJson("1232444");
-//        audit.setEntityJson("1232445");
-//        auditService.save(audit);
     }
 }
