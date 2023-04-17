@@ -8,6 +8,7 @@ import lombok.experimental.SuperBuilder;
 import org.hibernate.Hibernate;
 
 import javax.persistence.*;
+import javax.validation.constraints.Positive;
 import java.util.Objects;
 
 @Getter
@@ -21,7 +22,7 @@ import java.util.Objects;
 @EntityListeners(TransferListener.class)
 public class SuspiciousAccountTransfer extends SuspiciousTransfer {
 
-    Long accountTransferId;
+    @Positive Long accountTransferId;
 
 
     @Override

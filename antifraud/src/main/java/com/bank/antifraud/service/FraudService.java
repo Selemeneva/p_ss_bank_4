@@ -1,13 +1,14 @@
 package com.bank.antifraud.service;
 
 
+import com.bank.antifraud.dto.AntiFraudDto;
 import com.bank.antifraud.dto.temp.TransferDto;
 import com.bank.antifraud.entity.SuspiciousTransfer;
 
 public interface FraudService<T extends SuspiciousTransfer> {
-    T check(TransferDto transferDto);
-    T getById(long id);
+    AntiFraudDto check(TransferDto transferDto);
+    AntiFraudDto getById(long id);
     void deleteById(long id);
-    void update(T entity);
+    AntiFraudDto update(AntiFraudDto antiFraudDto);
 
 }

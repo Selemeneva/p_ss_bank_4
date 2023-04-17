@@ -8,6 +8,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
+import javax.validation.constraints.NotBlank;
 
 @MappedSuperclass
 @Getter
@@ -29,5 +30,5 @@ public abstract class SuspiciousTransfer {
 
     String blockedReason;
 
-    String suspiciousReason;
+    @NotBlank String suspiciousReason;
 }

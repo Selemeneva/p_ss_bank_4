@@ -6,7 +6,7 @@ public enum AntiFraudErrorCode {
     NOT_AUTHENTICATED("Пользователь не аутентифицирован"),
 
     TOO_MANY_INCOMING_TRANSFERS("Слишком много входящих транзакций по указанным реквизитам"),
-    FIRST_TRANSFER(""),
+    FIRST_TRANSFER("Покупка совершается впервые"),
     PURCHASE_LIMIT("Превышен лимит разовой покупки"),
     HAS_BLOCKED_TRANSFERS("У пользователя имеются заблокированные транзакции за день"),
     AVERAGE_LIMIT("Сумма покупки существенно выше обычного");

@@ -19,7 +19,7 @@ public class Audit {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    Long id;
 
     String entityType;
     String operationType;
