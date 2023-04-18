@@ -2,7 +2,6 @@ package com.bank.account.Controller;
 
 import com.bank.account.Entity.Dto.AccountDetailsDto;
 import com.bank.account.Service.AccountDetailsService;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

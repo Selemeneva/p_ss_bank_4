@@ -1,6 +1,5 @@
 package com.bank.account.Service;
 
-import com.bank.account.Entity.AccountDetails;
 import com.bank.account.Entity.Dto.AccountDetailsDto;
 import org.springframework.stereotype.Service;
 

@@ -9,7 +9,6 @@ import org.springframework.stereotype.Component;
  * предоставляет доступ к хранилищу данных для управления банковскими счетами.
  */
 @Component
-public interface AccountDetailsRepository extends JpaRepository<AccountDetails,Long> {
-    AccountDetails findAllById(Long id);
+public interface AccountDetailsRepository extends JpaRepository<AccountDetails, Long> {
 
 }

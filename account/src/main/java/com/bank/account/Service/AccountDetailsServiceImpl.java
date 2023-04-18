@@ -6,7 +6,6 @@ import com.bank.account.Entity.Dto.AccountDetailsDto;
 import com.bank.account.Mapper.AccountDetailsMapper;
 import com.bank.account.Repository.AccountDetailsRepository;
 import lombok.AllArgsConstructor;
-
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.webjars.NotFoundException;
@@ -51,8 +50,7 @@ public class AccountDetailsServiceImpl implements AccountDetailsService {
 
         AccountDetails accountDetailsExisting = accountDetailsRepository.findById(accountDetailsDto.getId())
                 .orElseThrow(() -> new NotFoundException("Аккаунт с ID " + accountDetailsDto.getId() + " не найден"));
-        auditListener.setCurrentAccountDetails(AccountDetailsMapper.INSTANCE.toDto(accountDetailsRepository
-                .findAllById(accountDetailsDto.getId())));
+        auditListener.setCurrentAccountDetails(AccountDetailsMapper.INSTANCE.toDto(accountDetailsExisting));
         AccountDetails accountDetails = AccountDetailsMapper.INSTANCE.toEntity(accountDetailsDto);
         accountDetailsRepository.save(accountDetails);
 

@@ -8,7 +8,9 @@ import org.mapstruct.factory.Mappers;
 @Mapper(componentModel = "spring")
 public interface AccountDetailsMapper {
     AccountDetailsMapper INSTANCE = Mappers.getMapper(AccountDetailsMapper.class);
+
     AccountDetailsDto toDto(AccountDetails accountDetails);
+
     AccountDetails toEntity(AccountDetailsDto accountDetailsDto);
 
 }

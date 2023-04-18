@@ -1,6 +1,5 @@
 package com.bank.account.Audit;
 
-import com.bank.account.Entity.AccountDetails;
 import com.bank.account.Entity.Audit;
 import com.bank.account.Entity.Dto.AccountDetailsDto;
 import com.bank.account.Repository.AuditRepository;
@@ -10,9 +9,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Configurable;
 import org.springframework.stereotype.Component;
 
-import javax.persistence.*;
+import javax.persistence.PrePersist;
+import javax.persistence.PreRemove;
+import javax.persistence.PreUpdate;
 import java.time.LocalDateTime;
-import java.util.List;
 
 /**
  * Класс AuditListener служит для прослушивания событий сущностей
@@ -72,7 +72,7 @@ public class AuditListener {
         if (auditRepository == null) {
             auditRepository = beanFactory.getBean(AuditRepository.class);
         }
-        AccountDetailsDto oldAccountDetails=getCurrentAccountDetails();
+        AccountDetailsDto oldAccountDetails = getCurrentAccountDetails();
         Audit audit = Audit.builder()
                 .entityType(entity.getClass().getSimpleName())
                 .operationType("UPDATE")

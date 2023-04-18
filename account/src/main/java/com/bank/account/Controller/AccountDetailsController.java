@@ -1,13 +1,14 @@
 package com.bank.account.Controller;
 
 import com.bank.account.Entity.Dto.AccountDetailsDto;
-import io.swagger.annotations.*;
+import io.swagger.annotations.ApiParam;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
-import org.springframework.web.bind.annotation.*;
-import java.util.Set;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Set;
 
 /**
  * Контроллер для работы с сущностями AccountDetails через API REST.
@@ -19,11 +20,12 @@ public interface AccountDetailsController {
 
     /**
      * Получает информацию о счете по его номеру.
+     *
      * @param id клиента
      * @return DTO AccountDetailsDto
      */
 
-    @Operation(summary ="Получает информацию о счете по его номеру")
+    @Operation(summary = "Получает информацию о счете по его номеру")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Успешно выполнено"),
             @ApiResponse(responseCode = "201", description = "Ресурс успешно создан"),
@@ -36,6 +38,7 @@ public interface AccountDetailsController {
 
     /**
      * Создает новый счет.
+     *
      * @param accountDetailsDto DTO AccountDetailsDto
      */
     @Operation(summary = "Создает новый счет")
@@ -51,6 +54,7 @@ public interface AccountDetailsController {
 
     /**
      * Обновляет информацию о счете
+     *
      * @param accountDetailsDto DTO AccountDetailsDto
      */
 
@@ -67,6 +71,7 @@ public interface AccountDetailsController {
 
     /**
      * Удаляет счет по его id.
+     *
      * @param id id счета
      */
     @Operation(summary = "Удаляет счет по его id")
@@ -82,7 +87,8 @@ public interface AccountDetailsController {
 
     /**
      * Получает список всех счетов.
-     * @return  множество DTO AccountDetailsDto
+     *
+     * @return множество DTO AccountDetailsDto
      */
     @Operation(summary = "Получает список всех счетов")
     @ApiResponses(value = {

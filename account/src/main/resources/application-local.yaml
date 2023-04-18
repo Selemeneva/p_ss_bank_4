@@ -16,8 +16,8 @@ management:
 spring:
   datasource:
     url: jdbc:postgresql://localhost:5432/postgres?currentSchema=account
-    username: user
-    password: password
+    username: postgres
+    password: root
   liquibase:
     default-schema: account
     change-log: db.changelog/db.changelog-master.yaml
