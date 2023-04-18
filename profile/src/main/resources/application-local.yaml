@@ -25,3 +25,12 @@ spring:
     drop-first: false
   application:
     name: profile-app
+
+#eureka:
+#  client:
+#    enabled: true
+#    serviceUrl:
+#      defaultZone: ${EUREKA_URI:http://localhost:8761/eureka}
+#  instance:
+#    preferIpAddress: true
+#    lease-renewal-interval-in-seconds: 30

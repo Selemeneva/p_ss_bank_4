@@ -20,11 +20,11 @@ public class ActualRegistrationDto {
 
     private String street;
 
-    private String houseNumber;
+    private Integer houseNumber;
 
-    private String houseBlock;
+    private Integer houseBlock;
 
-    private String flatNumber;
+    private Integer flatNumber;
 
     private Long index;
 }
