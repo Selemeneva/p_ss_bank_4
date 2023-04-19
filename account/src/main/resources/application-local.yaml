@@ -12,11 +12,12 @@ management:
     web:
       exposure:
         include: '*'
+
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/postgres
-    username: user
-    password: password
+    url: jdbc:postgresql://localhost:5432/postgres?currentSchema=account
+    username: postgres
+    password: root
   liquibase:
     default-schema: account
     change-log: db.changelog/db.changelog-master.yaml
@@ -24,3 +25,8 @@ spring:
     drop-first: ${LIQUIBASE_DROP_FIRST:false}
   application:
     name: account-app
+  jpa:
+    open-in-view: false
+    hibernate:
+      dialect: org.hibernate.dialect.PostgreSQLDialect
+      ddl-auto: update
