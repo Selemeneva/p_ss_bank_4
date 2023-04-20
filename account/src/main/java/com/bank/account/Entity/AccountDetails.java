@@ -6,7 +6,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.data.annotation.CreatedBy;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
@@ -41,7 +40,6 @@ public class AccountDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
-    @CreatedBy
     @Column(name = "passport_id")
     private Long passportId;
 
