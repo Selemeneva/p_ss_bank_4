@@ -4,7 +4,6 @@ import com.bank.antifraud.dto.AntiFraudDto;
 import com.bank.antifraud.dto.temp.TransferDto;
 import com.bank.antifraud.service.AccountFraudService;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;

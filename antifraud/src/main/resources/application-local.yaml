@@ -24,6 +24,7 @@ spring:
     properties:
       hibernate:
         default_schema: anti_fraud
+    show-sql: true
   datasource:
     url: jdbc:postgresql://localhost:5434/postgres
     username: user
