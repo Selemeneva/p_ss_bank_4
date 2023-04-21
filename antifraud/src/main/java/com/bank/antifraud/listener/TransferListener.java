@@ -64,6 +64,7 @@ public class TransferListener {
 //        String principal = SecurityContextHolder.getContext().getAuthentication().getName();
         String principal = "me";
         Audit oldAudit = listenerUtil.findByTypeAndJsonId(type, jsonId);
+        System.out.println(oldAudit);
         Audit audit = Audit.builder()
                 .entityType(oldAudit.getEntityType())
                 .operationType("UPDATE")
@@ -88,6 +89,7 @@ public class TransferListener {
         String type = entity.getClass().getSimpleName();
         Long jsonId = ((SuspiciousTransfer) entity).getId();
         Audit oldAudit = listenerUtil.findByTypeAndJsonId(type, jsonId);
+        System.out.println(oldAudit);
         Audit audit = Audit.builder()
                 .entityType(oldAudit.getEntityType())
                 .operationType("DELETE")

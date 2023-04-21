@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface AuditRepository extends JpaRepository<Audit, Long> {
-    Audit findFirstByEntityTypeAndEntityJsonContaining(String type, String word);
+    Audit findFirstByEntityTypeAndEntityJsonContainingOrderByIdDesc(String type, String word);
+
 
 }

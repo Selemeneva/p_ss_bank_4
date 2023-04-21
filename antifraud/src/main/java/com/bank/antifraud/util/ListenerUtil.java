@@ -13,7 +13,7 @@ public class ListenerUtil {
     @Autowired AuditRepository auditRepository;
 
     public Audit findByTypeAndJsonId(String type, Long jsonId) {
-        return auditRepository.findFirstByEntityTypeAndEntityJsonContaining(type, "\"id\":" + jsonId);
+        return auditRepository.findFirstByEntityTypeAndEntityJsonContainingOrderByIdDesc(type, "\"id\":" + jsonId);
     }
 
     public void save(Audit object) {
