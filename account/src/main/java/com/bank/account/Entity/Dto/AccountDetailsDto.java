@@ -26,13 +26,6 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 @Schema(description = "Information about accountDetails")
 public class AccountDetailsDto {
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     @Schema(description = "Идентификатор")
     private Long id;
